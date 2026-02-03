@@ -16,19 +16,33 @@
    pip install -r requirements.txt
    ```
 
-2. 配置环境变量:
-   `.env` 文件已自动生成并配置完毕。
-   如需修改，请直接编辑 `.env` 文件。
-   主要配置 `TELEGRAM_ALERT_BOT_TOKEN` 和 `TELEGRAM_ALERT_CHAT_ID`。
+2. 配置:
+   - **敏感信息**: 复制 `.env.example` 到 `.env` 并填写 API Key 和 Token。
+   - **监控逻辑**: 修改 `config.py` 来调整阈值、监控币种和时间间隔。
+     - 支持多币种持仓监控配置 (POSITION_TICKER_CONFIGS)。
+     - 支持自定义不同币种的报警阈值。
 
 3. 运行:
-   ```bash
-   python monitor.py
-   ```
+   - **后台运行 (推荐)**:
+     ```bash
+     ./run.sh
+     ```
+     日志将输出到 `monitor.log`。
+   
+   - **停止**:
+     ```bash
+     ./stop.sh
+     ```
+
+   - **手动调试**:
+     ```bash
+     python monitor.py
+     ```
 
 ## 命令控制
 在 Telegram 中也可以使用以下命令控制机器人：
 - `/start` - 显示帮助
-- `/stop` - 停止所有持续提醒
-- `/continue` - 恢复波动监控
+- `/pause [时长]` - 暂停提醒 (例如 `/pause 30m` 暂停30分钟，或 `/pause` 永久暂停)
+- `/continue` - 恢复监控 (暂停后使用)
 - `/status` - 查看当前监控状态
+- `/stop` - 停止机器人进程 (完全退出，需手动重启)

@@ -1,0 +1,1060 @@
+/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+==================================================
+初始化提醒管理器 (Standalone)...
+==================================================
+✅ Telegram配置完成: Chat ID=5637174161
+==================================================
+==================================================
+初始化提醒管理器 (Standalone)...
+==================================================
+✅ Telegram配置完成: Chat ID=5637174161
+==================================================
+==================================================
+初始化提醒管理器 (Standalone)...
+==================================================
+✅ Telegram配置完成: Chat ID=5637174161
+==================================================
+🔄 开始加载动态监控配置 (SYMBOL1 ~ SYMBOL50)...
+✅ 已加载持仓监控账户: MainAccount
+✅ 已加载持仓监控账户: SubAccount
+✅ 已加载持仓监控账户: SubAccount2
+==================================================
+初始化提醒管理器 (Standalone)...
+==================================================
+✅ Telegram配置完成: Chat ID=5637174161
+==================================================
+🤖 Telegram控制器启动中...
+✅ 已删除Webhook并丢弃挂起更新
+✅ Telegram控制器已启动，可以接收命令
+✅ 已发送启动通知
+2026-02-03 15:42:57.716 - INFO - [ALERT_BACKPACK_SOL] 🚀 价格监控启动
+交易标的: SOL
+价差阈值: 2.0%
+检查间隔: 1秒
+提醒类型: telegram
+2026-02-03 15:42:58.426 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5600, 合约: $104.5250, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:42:58.426 - INFO - [ALERT_BACKPACK_BTC] 🚀 价格波动监控启动
+交易标的: BTC
+时间窗口: 60秒
+波动阈值: 1.0%
+检查间隔: 1秒
+提醒类型: telegram
+2026-02-03 15:42:58.739 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78739.2500, 1分钟内波动: 0.0000%, 阈值: 1.0000% (最低: $78739.2500, 最高: $78739.2500)
+2026-02-03 15:42:58.739 - INFO - [ALERT_POSITION_SOL,BTC] 🚀 持仓监控启动
+监控账户数: 3
+监控币种: SOL,BTC
+检查间隔: 10秒
+2026-02-03 15:42:59.414 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:42:59.414 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:00.048 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:00.048 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:00.644 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:00.644 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:01.374 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5550, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:01.747 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78735.6500, 1分钟内波动: 0.0046%, 阈值: 1.0000% (最低: $78735.6500, 最高: $78739.2500)
+2026-02-03 15:43:03.069 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5450, 合约: $104.5150, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:03.374 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78732.9500, 1分钟内波动: 0.0080%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78739.2500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:04.868 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5550, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:05.178 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:06.623 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5550, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:06.931 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:08.304 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5550, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:08.607 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:10.060 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5550, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:10.339 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:11.259 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:11.260 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:11.864 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:11.864 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:12.429 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:12.429 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:13.155 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5600, 合约: $104.5050, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:13.471 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:14.858 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5050, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:15.198 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:16.608 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:16.903 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:18.369 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:18.713 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:20.133 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5150, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:20.433 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:21.840 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5150, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:22.157 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:23.021 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:23.021 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:23.570 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:23.570 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:24.197 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:24.197 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:24.880 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5150, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:25.158 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:26.520 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:26.804 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:28.215 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:28.496 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:30.044 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:30.354 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:31.713 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:31.993 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:33.354 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:33.682 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0093%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78740.2500)
+2026-02-03 15:43:34.772 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:34.772 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:35.342 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:35.342 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:35.922 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:35.922 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:36.622 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:36.988 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78743.7500, 1分钟内波动: 0.0137%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78743.7500)
+2026-02-03 15:43:38.271 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:38.587 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78745.8500, 1分钟内波动: 0.0164%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78745.8500)
+2026-02-03 15:43:39.999 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:40.319 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78760.8000, 1分钟内波动: 0.0354%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78760.8000)
+2026-02-03 15:43:41.770 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:42.083 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78760.2500, 1分钟内波动: 0.0354%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78760.8000)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:43.470 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5350, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:43.751 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78767.9500, 1分钟内波动: 0.0445%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78767.9500)
+2026-02-03 15:43:45.162 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5350, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:45.495 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78759.3500, 1分钟内波动: 0.0445%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78767.9500)
+2026-02-03 15:43:46.511 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:46.511 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:47.100 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:47.101 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:47.690 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:47.690 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:48.418 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:48.755 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78750.8500, 1分钟内波动: 0.0445%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78767.9500)
+2026-02-03 15:43:50.092 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:50.404 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78753.5500, 1分钟内波动: 0.0445%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78767.9500)
+2026-02-03 15:43:51.865 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:52.166 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78767.3500, 1分钟内波动: 0.0445%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78767.9500)
+2026-02-03 15:43:53.682 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:54.005 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78772.5500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78772.5500)
+2026-02-03 15:43:55.562 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:55.903 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.5500, 1分钟内波动: 0.0541%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78775.5500)
+✅ 已发送停止通知
+2026-02-03 15:43:57.275 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:57.611 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.5500, 1分钟内波动: 0.0541%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78775.5500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:58.251 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:58.251 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:58.824 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:58.824 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:59.409 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:59.409 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:00.073 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:00.394 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.5500, 1分钟内波动: 0.0541%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78775.5500)
+2026-02-03 15:44:01.848 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5750, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:02.226 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78779.8500, 1分钟内波动: 0.0596%, 阈值: 1.0000% (最低: $78732.9500, 最高: $78779.8500)
+2026-02-03 15:44:03.504 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6150, 合约: $104.5650, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:03.794 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78772.6500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:05.254 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5800, 合约: $104.5450, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:05.540 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78759.8500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:06.967 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5350, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:07.288 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78764.0500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:08.793 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:09.147 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78766.2500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:10.074 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:10.075 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:10.676 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:10.676 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:11.292 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:11.293 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:11.978 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:12.276 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78773.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:13.774 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:14.054 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78773.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:44:15.501 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6000, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:15.788 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78774.7500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:17.268 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6150, 合约: $104.5650, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:17.566 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78778.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:18.953 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6150, 合约: $104.5650, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:19.293 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78781.3000, 1分钟内波动: 0.0521%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78781.3000)
+2026-02-03 15:44:20.705 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6100, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:20.999 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.3500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:21.899 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:21.899 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:22.553 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:22.553 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:23.127 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:23.128 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:24.178 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:24.487 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78779.8500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:25.939 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:26.250 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78782.4500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:27.652 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:28.031 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:29.604 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:29.926 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:31.343 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:31.687 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:44:33.132 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:33.468 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0585%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78786.3500)
+2026-02-03 15:44:34.042 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:34.043 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:34.655 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:34.655 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:35.257 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:35.257 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:36.045 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:36.380 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0541%, 阈值: 1.0000% (最低: $78743.7500, 最高: $78786.3500)
+2026-02-03 15:44:37.813 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:38.122 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0514%, 阈值: 1.0000% (最低: $78745.8500, 最高: $78786.3500)
+2026-02-03 15:44:39.606 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:39.902 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.5500, 1分钟内波动: 0.0451%, 阈值: 1.0000% (最低: $78750.8500, 最高: $78786.3500)
+2026-02-03 15:44:41.280 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:41.606 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.7500, 1分钟内波动: 0.0494%, 阈值: 1.0000% (最低: $78750.8500, 最高: $78789.7500)
+2026-02-03 15:44:43.018 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:43.320 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.6500, 1分钟内波动: 0.0569%, 阈值: 1.0000% (最低: $78750.8500, 最高: $78795.6500)
+2026-02-03 15:44:44.736 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:45.216 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.5500, 1分钟内波动: 0.0569%, 阈值: 1.0000% (最低: $78750.8500, 最高: $78795.6500)
+2026-02-03 15:44:45.901 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:45.901 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:46.459 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:46.459 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:47.062 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:47.063 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:47.934 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:48.499 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0604%, 阈值: 1.0000% (最低: $78750.8500, 最高: $78798.4500)
+2026-02-03 15:44:49.617 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:49.907 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0570%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78798.4500)
+2026-02-03 15:44:51.475 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:51.797 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:44:53.263 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:53.545 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:44:54.948 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5250, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:55.292 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.2500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:44:56.684 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:56.974 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.6500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:44:57.696 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:57.696 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:58.320 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:58.321 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:58.899 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:58.900 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:59.706 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:00.070 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.7500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:45:01.505 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:01.934 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.7500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:45:03.272 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:03.598 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.4000, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:45:05.019 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5350, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:05.345 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78785.6500, 1分钟内波动: 0.0490%, 阈值: 1.0000% (最低: $78759.8500, 最高: $78798.4500)
+2026-02-03 15:45:06.712 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:07.072 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78787.2500, 1分钟内波动: 0.0437%, 阈值: 1.0000% (最低: $78764.0500, 最高: $78798.4500)
+2026-02-03 15:45:08.388 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:08.679 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78794.2500, 1分钟内波动: 0.0409%, 阈值: 1.0000% (最低: $78766.2500, 最高: $78798.4500)
+2026-02-03 15:45:09.472 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:09.473 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:10.086 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:10.086 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:10.645 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:10.646 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:11.347 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6450, 合约: $104.5850, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:11.630 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.7500, 1分钟内波动: 0.0317%, 阈值: 1.0000% (最低: $78773.4500, 最高: $78798.4500)
+2026-02-03 15:45:12.997 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:13.288 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.0500, 1分钟内波动: 0.0317%, 阈值: 1.0000% (最低: $78773.4500, 最高: $78798.4500)
+2026-02-03 15:45:14.679 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:15.017 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.5000, 1分钟内波动: 0.0301%, 阈值: 1.0000% (最低: $78774.7500, 最高: $78798.5000)
+2026-02-03 15:45:16.416 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:16.717 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78799.3500, 1分钟内波动: 0.0265%, 阈值: 1.0000% (最低: $78778.4500, 最高: $78799.3500)
+2026-02-03 15:45:18.112 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:18.429 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78799.3500, 1分钟内波动: 0.0248%, 阈值: 1.0000% (最低: $78779.8500, 最高: $78799.3500)
+2026-02-03 15:45:19.851 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:20.139 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78797.7500, 1分钟内波动: 0.0248%, 阈值: 1.0000% (最低: $78779.8500, 最高: $78799.3500)
+2026-02-03 15:45:21.193 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:21.193 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:22.018 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:22.018 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:22.563 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:22.564 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:23.273 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:23.585 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78801.8500, 1分钟内波动: 0.0279%, 阈值: 1.0000% (最低: $78779.8500, 最高: $78801.8500)
+2026-02-03 15:45:24.942 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6200, 合约: $104.5850, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:25.245 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78792.2500, 1分钟内波动: 0.0246%, 阈值: 1.0000% (最低: $78782.4500, 最高: $78801.8500)
+2026-02-03 15:45:26.735 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6200, 合约: $104.5850, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:27.026 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78793.2500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:28.459 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6200, 合约: $104.5850, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:28.736 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.5500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:30.190 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:30.508 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78794.3500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:45:31.860 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:32.141 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.2500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:33.146 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:33.146 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:33.772 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:33.773 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:34.383 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:34.383 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:35.086 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:35.383 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78790.8500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:36.815 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:37.381 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78790.8500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:38.587 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:38.925 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.3500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:40.221 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6550, 合约: $104.5950, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:40.566 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78787.7500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:42.062 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5950, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:42.351 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.2500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:43.718 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6450, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:44.032 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78797.6500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:45.014 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:45.014 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:46.008 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:46.008 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:46.586 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:46.586 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:47.279 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:47.576 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.8500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:49.058 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:49.335 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78778.4500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:50.790 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6550, 合约: $104.5950, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:51.094 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78788.6500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:52.461 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6400, 合约: $104.5950, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:52.791 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.9500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:54.354 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6400, 合约: $104.5950, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:54.629 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.9500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:56.169 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6500, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:56.489 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.2500, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+2026-02-03 15:45:57.140 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:57.141 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:57.713 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:57.714 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:58.297 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:58.297 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:59.093 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6450, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:59.632 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78777.1000, 1分钟内波动: 0.0330%, 阈值: 1.0000% (最低: $78775.8500, 最高: $78801.8500)
+500, 最高: $78766.1500)
+2026-02-03 15:43:22.640 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:23.565 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:23.566 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:24.160 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:24.160 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:24.778 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:24.778 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:25.446 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5150, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:25.727 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:25.784 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:27.217 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:27.531 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:27.588 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:28.914 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:29.224 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:29.282 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:30.634 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:30.937 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:31.000 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:32.279 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:32.569 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:32.630 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:34.154 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:34.458 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78740.2500, 1分钟内波动: 0.0370%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78766.1500)
+2026-02-03 15:43:34.518 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:35.342 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:35.343 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:35.931 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:35.931 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:36.686 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:36.686 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:37.684 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:37.965 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78745.8500, 1分钟内波动: 0.0363%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78765.6500)
+2026-02-03 15:43:38.060 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:39.417 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:39.731 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78759.7500, 1分钟内波动: 0.0351%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78764.6500)
+2026-02-03 15:43:39.793 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:41.149 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:41.466 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78760.8000, 1分钟内波动: 0.0302%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78760.8000)
+2026-02-03 15:43:41.531 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:42.829 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5350, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:43.170 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78760.2500, 1分钟内波动: 0.0302%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78760.8000)
+2026-02-03 15:43:43.229 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:44.505 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5350, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:44.787 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78758.6500, 1分钟内波动: 0.0302%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78760.8000)
+2026-02-03 15:43:44.844 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:46.290 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5700, 合约: $104.5350, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:46.607 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78759.3500, 1分钟内波动: 0.0302%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78760.8000)
+2026-02-03 15:43:46.664 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:47.394 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:47.394 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:47.952 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:47.952 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:48.508 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:43:48.508 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:43:49.258 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:49.573 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78753.5500, 1分钟内波动: 0.0302%, 阈值: 1.0000% (最低: $78737.0500, 最高: $78760.8000)
+2026-02-03 15:43:49.635 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:43:50.991 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5650, 合约: $104.5150, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:51.288 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78759.9500, 1分钟内波动: 0.0290%, 阈值: 1.0000% (最低: $78737.9500, 最高: $78760.8000)
+2026-02-03 15:43:51.350 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:52.771 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5350, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:53.121 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78768.9000, 1分钟内波动: 0.0393%, 阈值: 1.0000% (最低: $78737.9500, 最高: $78768.9000)
+2026-02-03 15:43:53.184 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:54.588 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5350, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:54.884 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.0500, 1分钟内波动: 0.0455%, 阈值: 1.0000% (最低: $78739.2500, 最高: $78775.0500)
+2026-02-03 15:43:54.940 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:56.348 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:56.628 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.5500, 1分钟内波动: 0.0461%, 阈值: 1.0000% (最低: $78739.2500, 最高: $78775.5500)
+2026-02-03 15:43:56.688 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:58.105 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:43:58.452 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78775.5500, 1分钟内波动: 0.0461%, 阈值: 1.0000% (最低: $78739.2500, 最高: $78775.5500)
+2026-02-03 15:43:58.510 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:43:59.122 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:43:59.122 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:43:59.719 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:43:59.719 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:00.304 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:00.305 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:01.096 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5750, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:01.425 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78779.8500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:01.482 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:44:02.992 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5750, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:03.369 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78774.9500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:03.426 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:04.720 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5550, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:05.022 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78757.5000, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:05.080 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:06.420 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5750, 合约: $104.5450, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:06.767 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78755.1000, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:06.827 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:08.137 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:08.426 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78766.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:08.495 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:09.835 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:10.117 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78770.8500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:10.179 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:10.974 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:10.974 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:11.562 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:11.562 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:12.142 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:12.142 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:12.870 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:13.156 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78773.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:13.214 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:14.617 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6000, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:14.934 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78774.7500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:14.990 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:16.313 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6000, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:16.624 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78778.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:16.687 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:18.072 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6150, 合约: $104.5650, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:18.414 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78778.4500, 1分钟内波动: 0.0503%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78779.8500)
+2026-02-03 15:44:18.471 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:44:19.826 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6150, 合约: $104.5650, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:20.123 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78781.3500, 1分钟内波动: 0.0522%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78781.3500)
+2026-02-03 15:44:20.185 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:21.603 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6100, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:22.626 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78782.0000, 1分钟内波动: 0.0530%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78782.0000)
+2026-02-03 15:44:22.685 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:23.341 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:23.341 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:24.132 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:24.132 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:24.733 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:24.733 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:25.480 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:25.790 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78782.4500, 1分钟内波动: 0.0536%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78782.4500)
+2026-02-03 15:44:25.852 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:27.332 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:27.645 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78782.4500, 1分钟内波动: 0.0536%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78782.4500)
+2026-02-03 15:44:27.705 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:29.438 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:29.721 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0566%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78784.8500)
+2026-02-03 15:44:29.779 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:31.253 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5650, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:31.563 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0566%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78784.8500)
+2026-02-03 15:44:31.619 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:32.961 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:33.251 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0566%, 阈值: 1.0000% (最低: $78740.2500, 最高: $78784.8500)
+2026-02-03 15:44:33.309 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:34.621 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:34.957 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0495%, 阈值: 1.0000% (最低: $78745.8500, 最高: $78784.8500)
+2026-02-03 15:44:35.015 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:35.595 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:35.596 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:36.177 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:36.177 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:36.734 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:36.734 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:37.610 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:37.938 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.8500, 1分钟内波动: 0.0495%, 阈值: 1.0000% (最低: $78745.8500, 最高: $78784.8500)
+2026-02-03 15:44:37.997 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:44:39.361 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:39.670 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78784.5500, 1分钟内波动: 0.0397%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78784.8500)
+2026-02-03 15:44:39.730 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:41.144 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:41.457 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.7500, 1分钟内波动: 0.0460%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78789.7500)
+2026-02-03 15:44:41.548 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:42.824 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5650, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:43.155 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.6500, 1分钟内波动: 0.0535%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78795.6500)
+2026-02-03 15:44:43.211 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:44.575 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:45.121 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.5500, 1分钟内波动: 0.0535%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78795.6500)
+2026-02-03 15:44:45.189 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:46.313 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:46.626 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78789.5500, 1分钟内波动: 0.0535%, 阈值: 1.0000% (最低: $78753.5500, 最高: $78795.6500)
+2026-02-03 15:44:46.683 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:47.377 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:47.377 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:44:48.217 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:44:48.217 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:48.811 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:44:48.811 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:44:49.508 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:49.792 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:49.853 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:51.288 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:51.600 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:51.663 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:53.182 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:53.458 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.4500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:53.517 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:54.870 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5250, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:55.184 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.2500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:55.246 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:56.669 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5900, 合约: $104.5450, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:56.975 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.6500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:57.033 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:58.362 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5450, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:44:58.645 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.7500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:44:58.702 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:44:59.448 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:44:59.448 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:00.077 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:00.077 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:00.713 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:00.714 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:01.615 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:02.052 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.7500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:45:02.111 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:45:03.705 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:04.015 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78785.6500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:45:04.078 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:05.507 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5350, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:05.831 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78785.6500, 1分钟内波动: 0.0550%, 阈值: 1.0000% (最低: $78755.1000, 最高: $78798.4500)
+2026-02-03 15:45:05.888 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:07.232 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5850, 合约: $104.5750, 价差: 0.01%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:07.557 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78791.4500, 1分钟内波动: 0.0406%, 阈值: 1.0000% (最低: $78766.4500, 最高: $78798.4500)
+2026-02-03 15:45:07.618 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:08.950 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:09.256 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78794.2500, 1分钟内波动: 0.0350%, 阈值: 1.0000% (最低: $78770.8500, 最高: $78798.4500)
+2026-02-03 15:45:09.317 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:10.686 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:10.992 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.7500, 1分钟内波动: 0.0317%, 阈值: 1.0000% (最低: $78773.4500, 最高: $78798.4500)
+2026-02-03 15:45:11.051 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:11.684 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:11.684 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:12.281 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:12.282 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:12.847 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:12.848 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:13.529 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:13.835 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78796.0500, 1分钟内波动: 0.0301%, 阈值: 1.0000% (最低: $78774.7500, 最高: $78798.4500)
+2026-02-03 15:45:13.901 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:15.230 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:15.525 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78798.5000, 1分钟内波动: 0.0255%, 阈值: 1.0000% (最低: $78778.4500, 最高: $78798.5000)
+2026-02-03 15:45:15.584 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:16.946 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:17.276 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78799.3500, 1分钟内波动: 0.0265%, 阈值: 1.0000% (最低: $78778.4500, 最高: $78799.3500)
+2026-02-03 15:45:17.339 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:18.635 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6300, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:18.981 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78799.3500, 1分钟内波动: 0.0228%, 阈值: 1.0000% (最低: $78781.3500, 最高: $78799.3500)
+2026-02-03 15:45:19.040 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:20.323 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:20.608 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78799.3500, 1分钟内波动: 0.0220%, 阈值: 1.0000% (最低: $78782.0000, 最高: $78799.3500)
+2026-02-03 15:45:20.672 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:22.043 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:22.390 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78801.8500, 1分钟内波动: 0.0252%, 阈值: 1.0000% (最低: $78782.0000, 最高: $78801.8500)
+2026-02-03 15:45:22.450 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:23.450 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:23.450 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:24.058 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:24.059 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:24.673 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:24.673 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:25.360 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6200, 合约: $104.5850, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:25.645 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78793.2500, 1分钟内波动: 0.0246%, 阈值: 1.0000% (最低: $78782.4500, 最高: $78801.8500)
+2026-02-03 15:45:25.705 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:27.056 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6050, 合约: $104.5850, 价差: 0.02%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:27.329 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78794.0000, 1分钟内波动: 0.0246%, 阈值: 1.0000% (最低: $78782.4500, 最高: $78801.8500)
+2026-02-03 15:45:27.388 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:28.769 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6200, 合约: $104.5850, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:29.069 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.5500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:29.126 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:30.500 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:30.773 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.2500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:30.833 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:32.245 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:32.576 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.2500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:32.635 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:33.978 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5850, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:34.298 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78790.8500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:34.355 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:35.226 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:35.226 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:35.858 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:35.858 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:36.416 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:36.416 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:37.253 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:37.582 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78790.8500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:37.645 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_utils/networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 4780, in get_updates
+    await self._post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 703, in _post
+    return await self._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/ext/_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/_bot.py", line 732, in _do_post
+    result = await request.post(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+  File "/Users/ziyuan/Code/monitor_bot/venv/lib/python3.9/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-02-03 15:45:38.942 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5950, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:39.243 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78795.3000, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:39.302 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:40.653 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5950, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:40.974 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78787.5000, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:41.031 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:42.377 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6250, 合约: $104.5950, 价差: 0.03%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:42.666 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78791.5500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:42.729 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:44.139 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6450, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:44.455 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78797.6500, 1分钟内波动: 0.0236%, 阈值: 1.0000% (最低: $78783.2500, 最高: $78801.8500)
+2026-02-03 15:45:44.522 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:46.205 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.5950, 合约: $104.5550, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:46.506 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78772.7500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:46.563 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:47.166 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:47.166 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:47.759 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:47.759 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:48.338 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:45:48.338 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:45:49.057 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6350, 合约: $104.5850, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:49.348 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78778.4500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:49.409 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:50.767 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6550, 合约: $104.5950, 价差: 0.06%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:51.053 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78788.6500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:51.110 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:52.461 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6400, 合约: $104.5950, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:52.772 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.9500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:52.829 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:54.315 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6400, 合约: $104.5950, 价差: 0.04%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:54.641 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78783.9500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:54.697 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:56.237 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6500, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:56.555 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.2500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:56.613 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:58.152 - INFO - [ALERT_BACKPACK_SOL] 📊 价格监控 - 现货: $104.6450, 合约: $104.5950, 价差: 0.05%, 阈值: 2.00% (现货溢价)
+2026-02-03 15:45:58.452 - INFO - [ALERT_BACKPACK_BTC] 📊 波动监控 - BTC: $78786.2500, 1分钟内波动: 0.0369%, 阈值: 1.0000% (最低: $78772.7500, 最高: $78801.8500)
+2026-02-03 15:45:58.510 - INFO - [ALERT_BYBIT_MMTUSDT] 📊 价格监控 - MMTUSDT: $0.16, 条件: [], 状态: ⏳ 正常范围
+2026-02-03 15:45:59.086 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [SOL] 现货: 145.9722, 合约: -143.0700, 净敞口: 2.9022 (阈值: 3.0)
+2026-02-03 15:45:59.086 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 MainAccount: [BTC] 现货: 0.3797, 合约: -0.3800, 净敞口: 0.0003 (阈值: 0.005)
+2026-02-03 15:45:59.674 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [SOL] 现货: 0.4779, 合约: 0.0000, 净敞口: 0.4779 (阈值: 3.0)
+2026-02-03 15:45:59.674 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)
+2026-02-03 15:46:00.279 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [SOL] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 3.0)
+2026-02-03 15:46:00.279 - INFO - [ALERT_POSITION_SOL,BTC] ⚖️ 持仓检查 - 账户 SubAccount2: [BTC] 现货: 0.0000, 合约: 0.0000, 净敞口: 0.0000 (阈值: 0.005)

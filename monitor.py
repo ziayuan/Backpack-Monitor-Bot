@@ -11,6 +11,7 @@ from decimal import Decimal
 from typing import Optional, Dict, Any, List, Tuple
 from dataclasses import dataclass
 from dotenv import load_dotenv
+import config
 
 # 添加项目根目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -1023,10 +1024,9 @@ class PriceTargetMonitor:
 @dataclass
 class PositionMonitorConfig:
     """持仓监控配置"""
-    accounts: List[Dict[str, str]]  # 账户列表 [{'name': 'A', 'key': '...', 'secret': '...'}, ...]
-    symbol: str = "SOL"  # 监控币种
-    diff_threshold: Decimal = Decimal("1.0")  # 现货与合约持仓差值阈值
-    check_interval: int = 60  # 检查间隔（秒）
+    accounts: List[Dict[str, str]]  # 账户列表
+    ticker_configs: Dict[str, Dict]  # 币种配置 {'SOL': {'diff_threshold': ...}, ...}
+    check_interval: int = 60
     alert_type: str = "telegram"
     alert_interval: int = 60
     enabled: bool = True
@@ -1037,7 +1037,8 @@ class PositionMonitor:
     
     def __init__(self, config: PositionMonitorConfig):
         self.config = config
-        self.logger = TradingLogger(exchange="alert_position", ticker=config.symbol, log_to_console=True)
+        monitor_symbols_str = ",".join(config.ticker_configs.keys())
+        self.logger = TradingLogger(exchange="alert_position", ticker=monitor_symbols_str, log_to_console=True)
         self.alert_manager = AlertManager()
         
         # 初始化账户客户端
@@ -1059,50 +1060,63 @@ class PositionMonitor:
             except Exception as e:
                 self.logger.log(f"⚠️ 初始化账户 {acc['name']} 失败: {e}", "ERROR")
         
-        self.spot_symbol = f"{config.symbol}_USDC"  # 假设是USDC交易对
-        self.futures_symbol = f"{config.symbol}_USDC_PERP"
-        
         # 持续提醒控制
         self.alerting = False
         self.stop_alerting = False
         self.monitoring_paused = False
         self.triggered_accounts = set()  # 记录触发报警的账户名
 
-    async def get_account_positions(self, client, account_name: str) -> Optional[Tuple[Decimal, Decimal]]:
-        """获取账户的现货和合约持仓"""
+    async def get_account_positions(self, client, account_name: str) -> Dict[str, Tuple[Decimal, Decimal]]:
+        """获取账户的现货和合约持仓，返回 {symbol: (spot_qty, futures_qty)}"""
+        result = {}
+        target_symbols = list(self.config.ticker_configs.keys())
+        
         try:
-            # 获取现货余额 (使用 get_collateral 以包含理财借出部分)
-            spot_qty = Decimal("0")
+            # Initialize for all monitored symbols
+            for symbol in target_symbols:
+                result[symbol] = (Decimal("0"), Decimal("0"))
+
+            # 1. 获取现货余额 (Collateral or Balances)
             try:
                 collateral_info = client.get_collateral()
                 if collateral_info and 'collateral' in collateral_info:
                     for asset in collateral_info['collateral']:
-                        if asset.get('symbol') == self.config.symbol:
+                        asset_symbol = asset.get('symbol')
+                        if asset_symbol in target_symbols:
                             spot_qty = Decimal(str(asset.get('totalQuantity', 0)))
-                            break
+                            # Update only spot, keep futures 0 for now
+                            result[asset_symbol] = (spot_qty, result[asset_symbol][1])
             except Exception as e:
                 self.logger.log(f"获取Collateral失败: {e} - 尝试回退到get_balances", "WARNING")
                 # Fallback to get_balances
                 balances = client.get_balances()
                 if balances and isinstance(balances, dict):
-                    if self.config.symbol in balances:
-                         spot_balance = balances.get(self.config.symbol, {})
-                         spot_qty = Decimal(str(spot_balance.get('available', 0))) + \
-                                    Decimal(str(spot_balance.get('locked', 0)))
+                    for symbol in target_symbols:
+                        if symbol in balances:
+                             spot_balance = balances.get(symbol, {})
+                             spot_qty = Decimal(str(spot_balance.get('available', 0))) + \
+                                        Decimal(str(spot_balance.get('locked', 0)))
+                             result[symbol] = (spot_qty, result[symbol][1])
             
-            # 获取合约持仓
-            futures_qty = Decimal("0")
+            # 2. 获取合约持仓
             positions = client.get_open_positions()
             if positions:
                 for pos in positions:
-                    if pos.get('symbol') == self.futures_symbol:
-                        futures_qty = Decimal(str(pos.get('netQuantity', 0)))
-                        break
+                    pos_symbol = pos.get('symbol', '')
+                    # 检查是否是我们监控的合约 (e.g. SOL_USDC_PERP or BTC_USDC_PERP)
+                    for mon_symbol in target_symbols:
+                        futures_symbol_patterns = [f"{mon_symbol}_USDC_PERP", f"{mon_symbol}_USDT_PERP"]
+                        if pos_symbol in futures_symbol_patterns:
+                            futures_qty = Decimal(str(pos.get('netQuantity', 0)))
+                            # Update futures, keep spot as is
+                            current_spot = result[mon_symbol][0]
+                            result[mon_symbol] = (current_spot, futures_qty)
+                            break
             
-            return spot_qty, futures_qty
+            return result
         except Exception as e:
             self.logger.log(f"获取账户 {account_name} 持仓失败: {e}", "ERROR")
-            return None
+            return {}
 
     async def check_positions(self) -> bool:
         """检查所有账户持仓"""
@@ -1116,24 +1130,28 @@ class PositionMonitor:
             name = account['name']
             client = account['client']
             
-            pos = await self.get_account_positions(client, name)
-            if pos is None:
+            # 获取所有监控币种的持仓
+            symbol_positions = await self.get_account_positions(client, name)
+            
+            if not symbol_positions:
                 continue
+
+            for symbol, (spot_qty, futures_qty) in symbol_positions.items():
+                # Get threshold for this symbol
+                threshold = self.config.ticker_configs.get(symbol, {}).get('diff_threshold', Decimal('3.0'))
                 
-            spot_qty, futures_qty = pos
-            
-            # 计算风险敞口: abs(spot_qty + futures_qty)
-            net_exposure = abs(spot_qty + futures_qty)
-            diff_msg = f"现货: {spot_qty:.4f}, 合约: {futures_qty:.4f}, 净敞口: {net_exposure:.4f}"
-            
-            self.logger.log(f"⚖️ 持仓检查 - 账户 {name}: {diff_msg}", "INFO")
-            
-            if net_exposure > self.config.diff_threshold:
-                new_triggered_accounts.add(name)
-                triggered_any = True
+                # 计算风险敞口: abs(spot_qty + futures_qty)
+                net_exposure = abs(spot_qty + futures_qty)
+                diff_msg = f"[{symbol}] 现货: {spot_qty:.4f}, 合约: {futures_qty:.4f}, 净敞口: {net_exposure:.4f} (阈值: {threshold})"
                 
-                if name not in self.triggered_accounts:
-                    self.logger.log(f"🚨 账户 {name} 持仓偏差过大! {diff_msg}", "WARNING")
+                self.logger.log(f"⚖️ 持仓检查 - 账户 {name}: {diff_msg}", "INFO")
+                
+                if net_exposure > threshold:
+                    new_triggered_accounts.add(name)
+                    triggered_any = True
+                    
+                    if name not in self.triggered_accounts:
+                        self.logger.log(f"🚨 账户 {name} [{symbol}] 持仓偏差过大! {diff_msg}", "WARNING")
         
         # 更新触发状态
         if triggered_any:
@@ -1163,22 +1181,23 @@ class PositionMonitor:
                 
                 for account in self.account_clients:
                     name = account['name']
-                    # 只提醒之前触发的账户，或者重新检查所有账户
                     client = account['client']
-                    pos = await self.get_account_positions(client, name)
+                    symbol_positions = await self.get_account_positions(client, name)
                     
-                    if pos:
-                        spot_qty, futures_qty = pos
+                    for symbol, (spot_qty, futures_qty) in symbol_positions.items():
                         net_exposure = abs(spot_qty + futures_qty)
                         
-                        if net_exposure > self.config.diff_threshold:
+                        # Get threshold for this symbol
+                        threshold = self.config.ticker_configs.get(symbol, {}).get('diff_threshold', Decimal('3.0'))
+
+                        if net_exposure > threshold:
                             monitor_still_triggered = True
                             msg = (
-                                f"🚨 账户 {name} 持仓警告！\n"
+                                f"🚨 账户 {name} **{symbol}** 持仓警告！\n"
                                 f"现货: {spot_qty:.4f}\n"
                                 f"合约: {futures_qty:.4f}\n"
                                 f"净敞口: {net_exposure:.4f}\n"
-                                f"阈值: {self.config.diff_threshold}"
+                                f"阈值: {threshold}"
                             )
                             messages.append(msg)
                 
@@ -1189,7 +1208,8 @@ class PositionMonitor:
                      break
                 
                 if messages:
-                    full_msg = f"⚖️ **多账户持仓风险报警**\n监控币种: {self.config.symbol}\n\n" + "\n\n".join(messages)
+                    monitor_symbols_str = ",".join(self.config.ticker_configs.keys())
+                    full_msg = f"⚖️ **多账户持仓风险报警**\n监控币种: {monitor_symbols_str}\n\n" + "\n\n".join(messages)
                     
                     await self.alert_manager.send_alert(
                         message=full_msg,
@@ -1208,11 +1228,11 @@ class PositionMonitor:
 
     async def start_monitoring(self):
         """启动持仓监控"""
+        monitor_symbols_str = ",".join(self.config.ticker_configs.keys())
         self.logger.log(
             f"🚀 持仓监控启动\n"
             f"监控账户数: {len(self.account_clients)}\n"
-            f"监控币种: {self.config.symbol}\n"
-            f"敞口阈值: {self.config.diff_threshold}\n"
+            f"监控币种: {monitor_symbols_str}\n"
             f"检查间隔: {self.config.check_interval}秒",
             "INFO"
         )
@@ -1233,40 +1253,32 @@ async def main():
     # 加载环境变量
     load_dotenv()
     
-    # 从环境变量读取价差监控配置
-    ticker = os.getenv('ALERT_TICKER', 'SOL')
-    threshold_pct = Decimal(os.getenv('ALERT_THRESHOLD_PCT', '2.0'))
-    check_interval = int(os.getenv('ALERT_CHECK_INTERVAL', '1'))
-    alert_type = os.getenv('ALERT_TYPE', 'telegram')  # phone, telegram, both
-    alert_cooldown = int(os.getenv('ALERT_COOLDOWN', '0'))  # 设为0表示无冷却
-    alert_interval = int(os.getenv('ALERT_INTERVAL', '1'))  # 持续提醒间隔（秒）
+    # 从 config.py 读取价差监控配置
+    monitor_cfg = config.PRICE_MONITOR_CONFIG
     
     spread_config = MonitorConfig(
-        ticker=ticker,
-        threshold_pct=threshold_pct,
-        check_interval=check_interval,
-        alert_type=alert_type,
-        alert_cooldown=alert_cooldown,
-        alert_interval=alert_interval
+        ticker=monitor_cfg['ticker'],
+        threshold_pct=monitor_cfg['threshold_pct'],
+        check_interval=monitor_cfg['check_interval'],
+        alert_type=monitor_cfg['alert_type'],
+        alert_cooldown=monitor_cfg['alert_cooldown'],
+        alert_interval=monitor_cfg['alert_interval']
     )
     
     spread_monitor = PriceMonitor(spread_config)
     
-    # 从环境变量读取波动监控配置
-    volatility_ticker = os.getenv('VOLATILITY_TICKER', 'BTC')
-    volatility_time_window = int(os.getenv('VOLATILITY_TIME_WINDOW_SEC', '60'))  # 秒
-    volatility_threshold_pct = Decimal(os.getenv('VOLATILITY_THRESHOLD_PCT', '1.0'))
-    volatility_check_interval = int(os.getenv('VOLATILITY_CHECK_INTERVAL', '1'))
-    volatility_enabled = os.getenv('VOLATILITY_ENABLED', 'true').lower() == 'true'
+    # 从 config.py 读取波动监控配置
+    vol_cfg = config.VOLATILITY_MONITOR_CONFIG
+    volatility_enabled = vol_cfg['enabled']
     
     volatility_config = VolatilityMonitorConfig(
-        ticker=volatility_ticker,
-        time_window_sec=volatility_time_window,
-        volatility_threshold_pct=volatility_threshold_pct,
-        check_interval=volatility_check_interval,
-        alert_type=alert_type,
-        alert_interval=alert_interval,
-        enabled=volatility_enabled
+        ticker=vol_cfg['ticker'],
+        time_window_sec=vol_cfg['time_window_sec'],
+        volatility_threshold_pct=vol_cfg['threshold_pct'],
+        check_interval=vol_cfg['check_interval'],
+        alert_type=vol_cfg['alert_type'],
+        alert_interval=vol_cfg['alert_interval'],
+        enabled=vol_cfg['enabled']
     )
     
     volatility_monitor = PriceVolatilityMonitor(volatility_config)
@@ -1279,8 +1291,13 @@ async def main():
     target_min_price_str = os.getenv('PRICE_TARGET_MIN_PRICE', '')
     target_max_price_str = os.getenv('PRICE_TARGET_MAX_PRICE', '')
     target_check_interval = int(os.getenv('PRICE_TARGET_CHECK_INTERVAL', '1'))
-    target_enabled = os.getenv('PRICE_TARGET_ENABLED', 'true').lower() == 'true'
+    target_enabled = os.getenv('PRICE_TARGET_ENABLED', 'false').lower() == 'true'
     
+    # Define legacy target config variables from config.py defaults
+    target_defaults = config.PRICE_TARGET_DEFAULTS
+    alert_type = target_defaults['alert_type']
+    alert_interval = target_defaults['alert_interval']
+
     target_price = Decimal(target_price_str) if target_price_str else None
     target_min_price = Decimal(target_min_price_str) if target_min_price_str else None
     target_max_price = Decimal(target_max_price_str) if target_max_price_str else None
@@ -1341,7 +1358,7 @@ async def main():
             max_price = Decimal(max_price_str) if max_price_str else None
             
             if min_price is not None or max_price is not None:
-                config = PriceTargetMonitorConfig(
+                target_monitor_config = PriceTargetMonitorConfig(
                     exchange=exchange,
                     symbol=symbol,
                     category=category,
@@ -1353,7 +1370,7 @@ async def main():
                     alert_interval=alert_interval,
                     enabled=enabled
                 )
-                monitor = PriceTargetMonitor(config)
+                monitor = PriceTargetMonitor(target_monitor_config)
                 extra_monitors.append(monitor)
                 print(f"✅ 已加载监控: {symbol} (SYMBOL{n})")
             else:
@@ -1364,13 +1381,14 @@ async def main():
         n += 1
     
     # 加载持仓监控配置
-    position_monitor_enabled = os.getenv('POSITION_MONITOR_ENABLED', 'false').lower() == 'true'
+    pos_global_cfg = config.POSITION_MONITOR_GLOBAL_CONFIG
+    position_monitor_enabled = pos_global_cfg['enabled']
     position_monitor = None
     
     if position_monitor_enabled:
-        pos_symbol = os.getenv('POSITION_MONITOR_SYMBOL', 'SOL')
-        pos_threshold = Decimal(os.getenv('POSITION_DIFF_THRESHOLD', '1.0'))
-        pos_check_interval = int(os.getenv('POSITION_CHECK_INTERVAL', '60'))
+        pos_check_interval = pos_global_cfg['check_interval']
+        pos_alert_type = pos_global_cfg['alert_type']
+        pos_alert_interval = pos_global_cfg['alert_interval']
         
         # 动态加载账户配置 BP_ACCOUNT{n}_*
         accounts = []
@@ -1393,13 +1411,16 @@ async def main():
             n += 1
             
         if accounts:
+            # Load ticker configs from config.py
+            ticker_configs = config.POSITION_TICKER_CONFIGS
+            
             pos_config = PositionMonitorConfig(
                 accounts=accounts,
-                symbol=pos_symbol,
-                diff_threshold=pos_threshold,
+                ticker_configs=ticker_configs,
                 check_interval=pos_check_interval,
-                alert_type=alert_type,
-                alert_interval=alert_interval
+                alert_type=pos_alert_type,
+                alert_interval=pos_alert_interval,
+                enabled=True
             )
             position_monitor = PositionMonitor(pos_config)
         else:

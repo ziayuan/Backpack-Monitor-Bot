@@ -7,6 +7,9 @@ import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 from typing import Optional
+import re
+import sys
+import datetime
 
 
 class TelegramController:
@@ -37,6 +40,8 @@ class TelegramController:
             self.enabled = False
         else:
             self.enabled = True
+        
+        self._resume_task = None  # Store the scheduled resume task
     
     async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """处理/start命令"""
@@ -48,18 +53,54 @@ class TelegramController:
             "👋 价格提醒机器人控制\n\n"
             "可用命令：\n"
             "/start - 显示帮助\n"
-            "/stop - 停止所有持续提醒\n"
-            "/continue - 恢复波动监控（停止后使用）\n"
-            "/status - 查看状态"
+            "/pause [时长] - 暂停提醒 (例如: /pause 10m, /pause 1h, 或不带参数永久暂停)\n"
+            "/continue - 恢复监控\n"
+            "/status - 查看状态\n"
+            "/stop - 🔴 停止机器人进程"
         )
         await update.message.reply_text(welcome_msg)
     
-    async def stop_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """处理/stop命令 - 停止所有持续提醒"""
+    async def pause_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """处理/pause命令 - 暂停提醒，支持时长参数"""
         if str(update.effective_chat.id) != str(self.chat_id):
             await update.message.reply_text("❌ 您没有权限使用此机器人")
             return
         
+        # Parse arguments
+        args = context.args
+        duration_str = args[0] if args else None
+        
+        # Calculate duration if provided
+        seconds = 0
+        readable_duration = "永久"
+        
+        if duration_str:
+            match = re.match(r'^(\d+)(s|m|h|d)?$', duration_str.lower())
+            if match:
+                value = int(match.group(1))
+                unit = match.group(2) or 'm' # Default to minutes if no unit
+                
+                if unit == 's':
+                    seconds = value
+                    readable_duration = f"{value}秒"
+                elif unit == 'm':
+                    seconds = value * 60
+                    readable_duration = f"{value}分钟"
+                elif unit == 'h':
+                    seconds = value * 3600
+                    readable_duration = f"{value}小时"
+                elif unit == 'd':
+                    seconds = value * 86400
+                    readable_duration = f"{value}天"
+            else:
+                await update.message.reply_text("❌ 格式错误。示例: /pause 10m, /pause 1h")
+                return
+        
+        # Cancel existing resume task if exists
+        if self._resume_task:
+            self._resume_task.cancel()
+            self._resume_task = None
+
         stopped_list = []
         
         # 停止价差监控提醒
@@ -99,9 +140,41 @@ class TelegramController:
                 stopped_list.append(f"{monitor_name}监控")
         
         if stopped_list:
-            await update.message.reply_text(f"✅ 已停止以下监控的持续提醒：{', '.join(stopped_list)}")
+            msg = f"⏸️ 已暂停: {', '.join(stopped_list)}\n⏳ 暂停时长: {readable_duration}"
+            await update.message.reply_text(msg)
+            
+            # If duration is set, schedule auto-resume
+            if seconds > 0:
+                self._resume_task = asyncio.create_task(self._scheduled_resume(seconds, update, context))
         else:
             await update.message.reply_text("❌ 没有找到可用的监控器")
+
+    async def _scheduled_resume(self, delay: int, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Scheduled task to resume monitoring"""
+        try:
+            await asyncio.sleep(delay)
+            # Call continue logic
+            await update.message.reply_text("⏰ 暂停结束，自动恢复监控...")
+            await self.continue_command(update, context)
+            self._resume_task = None
+        except asyncio.CancelledError:
+            pass # Task was cancelled, do nothing
+
+    async def stop_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """处理/stop命令 - 停止进程"""
+        if str(update.effective_chat.id) != str(self.chat_id):
+            await update.message.reply_text("❌ 您没有权限使用此机器人")
+            return
+            
+        await update.message.reply_text("🛑 正在停止机器人进程... (需要手动运行 ./run.sh 重启)")
+        await self.send_shutdown_notification()
+        
+        # Stop the updater and application
+        await self.application.stop()
+        
+        # Force exit
+        print("🛑 收到Telegram停止命令，退出进程")
+        os._exit(0)
     
     async def continue_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """处理/continue命令 - 恢复波动监控"""
@@ -110,6 +183,11 @@ class TelegramController:
             return
         
         resumed_list = []
+        
+        # Cancel resume task if manually continued
+        if self._resume_task:
+            self._resume_task.cancel()
+            self._resume_task = None
         
         if self.volatility_monitor:
             self.volatility_monitor.monitoring_paused = False
@@ -155,7 +233,8 @@ class TelegramController:
             parts.append(f"📈 波动监控: {self.volatility_monitor.config.ticker} (阈值 {self.volatility_monitor.config.volatility_threshold_pct}%)")
             
         if self.position_monitor:
-            parts.append(f"⚖️ 持仓监控: {self.position_monitor.config.symbol} (阈值 {self.position_monitor.config.diff_threshold})")
+            for symbol, cfg in self.position_monitor.config.ticker_configs.items():
+                parts.append(f"⚖️ 持仓监控: {symbol} (阈值 {cfg.get('diff_threshold', '?')})")
             
         all_targets = []
         if self.target_monitor: all_targets.append(self.target_monitor)
@@ -340,10 +419,12 @@ class TelegramController:
             
         # 持仓监控
         if self.position_monitor:
+            status_parts.append("\n⚖️ 持仓监控")
+            for symbol, cfg in self.position_monitor.config.ticker_configs.items():
+                status_parts.append(
+                    f"  - {symbol}: 阈值 {cfg.get('diff_threshold', '?')}"
+                )
             status_parts.append(
-                f"\n⚖️ 持仓监控\n"
-                f"交易标的: {self.position_monitor.config.symbol}\n"
-                f"差值阈值: {self.position_monitor.config.diff_threshold}\n"
                 f"检查间隔: {self.position_monitor.config.check_interval}秒\n"
                 f"持续提醒中: {'是' if self.position_monitor.alerting else '否'}\n"
                 f"停止标志: {'是' if self.position_monitor.stop_alerting else '否'}\n"
@@ -454,6 +535,7 @@ class TelegramController:
             
             # 注册命令处理器
             self.application.add_handler(CommandHandler("start", self.start_command))
+            self.application.add_handler(CommandHandler("pause", self.pause_command))
             self.application.add_handler(CommandHandler("stop", self.stop_command))
             self.application.add_handler(CommandHandler("continue", self.continue_command))
             self.application.add_handler(CommandHandler("status", self.status_command))
