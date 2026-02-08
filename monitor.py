@@ -20,6 +20,7 @@ from bpx.public import Public
 from alert_manager import AlertManager
 from logger import TradingLogger
 from bpx.account import Account
+from exchange_clients import get_exchange_price
 
 
 # 交易对符号映射：Backpack格式 -> 币安格式
@@ -124,6 +125,9 @@ class PriceMonitor:
         # 持续提醒控制
         self.alerting = False  # 是否正在持续发送提醒
         self.stop_alerting = False  # 停止提醒标志（通过Telegram命令设置）
+        self.monitoring_paused = False  # 是否暂停监控
+        self.alert_id = None  # 警报ID（由TelegramController设置）
+        self.alert_registry = None  # 警报注册表引用
     
     async def get_spot_price(self) -> Optional[Decimal]:
         """获取现货价格（使用订单簿中间价，实时更新）"""
@@ -229,6 +233,9 @@ class PriceMonitor:
     
     async def check_price_spread(self) -> bool:
         """检查价差并触发提醒"""
+        if self.monitoring_paused:
+            return False
+        
         spot_price = await self.get_spot_price()
         futures_price = await self.get_futures_price()
         
@@ -382,27 +389,24 @@ class PriceMonitor:
 @dataclass
 class VolatilityMonitorConfig:
     """价格波动监控配置"""
+    exchange: str = "binance"  # 交易所 (binance, bybit, bitget, hyperliquid, lighter, backpack)
     ticker: str = "BTC"  # 交易标的
     time_window_sec: int = 60  # 时间窗口（秒），如60表示1分钟内
     volatility_threshold_pct: Decimal = Decimal("1.0")  # 波动阈值（百分比）
     check_interval: int = 1  # 检查间隔（秒）
-    alert_type: str = "telegram"  # 提醒类型: "phone", "telegram", "both"
+    alert_type: str = "telegram"  # 提醒类型
     alert_interval: int = 1  # 持续提醒时的发送间隔（秒）
     enabled: bool = True
 
 
 class PriceVolatilityMonitor:
-    """价格波动监控器"""
+    """价格波动监控器 (支持多交易所)"""
     
     def __init__(self, config: VolatilityMonitorConfig):
         self.config = config
         # 使用alert_前缀区分alert bot和grid bot的日志
-        self.logger = TradingLogger(exchange="alert_backpack", ticker=config.ticker, log_to_console=True)
+        self.logger = TradingLogger(exchange=f"alert_{config.exchange}", ticker=config.ticker, log_to_console=True)
         self.alert_manager = AlertManager()
-        self.public_client = Public()
-        
-        # 交易对符号
-        self.symbol = f"{config.ticker}_USDC"
         
         # 价格历史记录：[(timestamp, price), ...]
         self.price_history: List[Tuple[float, Decimal]] = []
@@ -411,49 +415,13 @@ class PriceVolatilityMonitor:
         self.alerting = False  # 是否正在持续发送提醒
         self.stop_alerting = False  # 停止提醒标志（通过Telegram命令设置）
         self.monitoring_paused = False  # 是否暂停监控（通过/continue恢复）
+        self.alert_id = None  # 警报ID（由TelegramController设置）
+        self.alert_registry = None  # 警报注册表引用
     
     async def get_price(self) -> Optional[Decimal]:
-        """获取价格（使用订单簿中间价，实时更新）"""
-        # 首先尝试从 Backpack 获取价格
-        try:
-            # 优先使用订单簿中间价（实时更新），而不是lastPrice（仅在交易时更新）
-            depth_data = self.public_client.get_depth(self.symbol)
-            if depth_data and 'bids' in depth_data and 'asks' in depth_data:
-                bids = depth_data['bids']
-                asks = depth_data['asks']
-                if bids and asks:
-                    # 确保bids和asks已排序
-                    bids_sorted = sorted(bids, key=lambda x: Decimal(str(x[0])), reverse=True)
-                    asks_sorted = sorted(asks, key=lambda x: Decimal(str(x[0])))
-                    best_bid = Decimal(str(bids_sorted[0][0]))
-                    best_ask = Decimal(str(asks_sorted[0][0]))
-                    mid_price = (best_bid + best_ask) / 2
-                    return mid_price
-            
-            # 如果订单簿失败，尝试使用ticker的lastPrice作为备用
-            ticker_data = self.public_client.get_ticker(self.symbol)
-            if ticker_data and 'lastPrice' in ticker_data:
-                price = Decimal(str(ticker_data['lastPrice']))
-                return price
-                        
-        except Exception as e:
-            self.logger.log(f"从 Backpack 获取价格失败: {e}", "WARNING")
-            # Backpack 失败，尝试从币安获取（备用交易所）
-            self.logger.log(f"🔄 尝试从币安获取价格作为备用...", "INFO")
-            binance_price = await get_binance_price(self.config.ticker, self.logger)
-            if binance_price is not None:
-                return binance_price
-            else:
-                self.logger.log(f"从币安获取价格也失败，无法获取价格数据", "ERROR")
-                return None
-        
-        # 如果 Backpack 返回了数据但没有价格，也尝试币安
-        self.logger.log(f"🔄 Backpack 未返回有效价格，尝试从币安获取...", "INFO")
-        binance_price = await get_binance_price(self.config.ticker, self.logger)
-        if binance_price is not None:
-            return binance_price
-        
-        return None
+        """获取价格 (使用exchange_clients)"""
+        return await get_exchange_price(self.config.exchange, self.config.ticker)
+    
     
     def calculate_volatility(self) -> Optional[Tuple[Decimal, Decimal, Decimal, Decimal]]:
         """
@@ -533,6 +501,9 @@ class PriceVolatilityMonitor:
         
         # 检查是否超过阈值
         if volatility_float >= threshold_float:
+            # 如果被静默，不触发警报
+            if self.monitoring_paused:
+                return False
             # 如果还没开始持续提醒，启动持续提醒循环
             if not self.alerting and not self.stop_alerting:
                 self.alerting = True
@@ -586,6 +557,7 @@ class PriceVolatilityMonitor:
                 
                 message = (
                     f"🚨 价格波动告警！\n\n"
+                    f"交易所: {self.config.exchange.upper()}\n"
                     f"交易标的: {self.config.ticker}\n"
                     f"当前价格: ${price:.4f}\n"
                     f"{self.config.time_window_sec}秒内最低价: ${min_price:.4f}\n"
@@ -594,6 +566,12 @@ class PriceVolatilityMonitor:
                     f"阈值: {self.config.volatility_threshold_pct}%\n"
                     f"持续提醒中..."
                 )
+                
+                # 检查是否被静默
+                if self.alert_registry and self.alert_registry.is_muted(self.alert_id):
+                    self.logger.log(f"🔇 警报 #{self.alert_id} 已静默，跳过发送", "INFO")
+                    await asyncio.sleep(self.config.alert_interval)
+                    continue
                 
                 # 发送提醒（无冷却时间）
                 try:
@@ -641,6 +619,10 @@ class PriceVolatilityMonitor:
         
         while self.config.enabled:
             try:
+                # 如果被静默，跳过检查
+                if self.monitoring_paused:
+                    await asyncio.sleep(self.config.check_interval)
+                    continue
                 await self.check_volatility()
                 await asyncio.sleep(self.config.check_interval)
             except KeyboardInterrupt:
@@ -694,6 +676,8 @@ class PriceTargetMonitor:
         self.monitoring_paused = False  # 是否暂停监控（通过/continue恢复）
         self.target_reached = False  # 是否已触发价格条件
         self.trigger_reason = ""  # 触发原因：below_min, above_max, above_target
+        self.alert_id = None  # 警报ID（由TelegramController设置）
+        self.alert_registry = None  # 警报注册表引用
     
     async def get_price(self) -> Optional[Decimal]:
         """获取价格"""
@@ -1065,6 +1049,8 @@ class PositionMonitor:
         self.stop_alerting = False
         self.monitoring_paused = False
         self.triggered_accounts = set()  # 记录触发报警的账户名
+        self.alert_id = None  # 警报ID（由TelegramController设置）
+        self.alert_registry = None  # 警报注册表引用
 
     async def get_account_positions(self, client, account_name: str) -> Dict[str, Tuple[Decimal, Decimal]]:
         """获取账户的现货和合约持仓，返回 {symbol: (spot_qty, futures_qty)}"""
@@ -1253,69 +1239,42 @@ async def main():
     # 加载环境变量
     load_dotenv()
     
-    # 从 config.py 读取价差监控配置
-    monitor_cfg = config.PRICE_MONITOR_CONFIG
+    # 从 config.py 读取多个价差监控配置
+    spread_monitors = []
+    for spread_cfg in config.PRICE_MONITOR_CONFIGS:
+        if spread_cfg.get('enabled', True):
+            spread_config = MonitorConfig(
+                ticker=spread_cfg['ticker'],
+                threshold_pct=spread_cfg['threshold_pct'],
+                check_interval=spread_cfg['check_interval'],
+                alert_type=spread_cfg.get('alert_type', 'telegram'),
+                alert_cooldown=spread_cfg['alert_cooldown'],
+                alert_interval=spread_cfg['alert_interval']
+            )
+            spread_monitors.append(PriceMonitor(spread_config))
     
-    spread_config = MonitorConfig(
-        ticker=monitor_cfg['ticker'],
-        threshold_pct=monitor_cfg['threshold_pct'],
-        check_interval=monitor_cfg['check_interval'],
-        alert_type=monitor_cfg['alert_type'],
-        alert_cooldown=monitor_cfg['alert_cooldown'],
-        alert_interval=monitor_cfg['alert_interval']
-    )
+    print(f"📈 已加载 {len(spread_monitors)} 个价差监控器")
     
-    spread_monitor = PriceMonitor(spread_config)
+    # 从 config.py 读取多个波动监控配置
+    volatility_monitors = []
+    for vol_cfg in config.VOLATILITY_MONITOR_CONFIGS:
+        if vol_cfg.get('enabled', True):
+            volatility_config = VolatilityMonitorConfig(
+                exchange=vol_cfg.get('exchange', 'binance'),
+                ticker=vol_cfg['ticker'],
+                time_window_sec=vol_cfg['time_window_sec'],
+                volatility_threshold_pct=vol_cfg['threshold_pct'],
+                check_interval=vol_cfg['check_interval'],
+                alert_interval=vol_cfg['alert_interval'],
+                enabled=True
+            )
+            volatility_monitors.append(PriceVolatilityMonitor(volatility_config))
     
-    # 从 config.py 读取波动监控配置
-    vol_cfg = config.VOLATILITY_MONITOR_CONFIG
-    volatility_enabled = vol_cfg['enabled']
+    print(f"📊 已加载 {len(volatility_monitors)} 个波动监控器")
     
-    volatility_config = VolatilityMonitorConfig(
-        ticker=vol_cfg['ticker'],
-        time_window_sec=vol_cfg['time_window_sec'],
-        volatility_threshold_pct=vol_cfg['threshold_pct'],
-        check_interval=vol_cfg['check_interval'],
-        alert_type=vol_cfg['alert_type'],
-        alert_interval=vol_cfg['alert_interval'],
-        enabled=vol_cfg['enabled']
-    )
-    
-    volatility_monitor = PriceVolatilityMonitor(volatility_config)
-    
-    # 从环境变量读取价格目标监控配置
-    target_exchange = os.getenv('PRICE_TARGET_EXCHANGE', 'bybit')
-    target_symbol = os.getenv('PRICE_TARGET_SYMBOL', 'MMTUSDT')
-    target_category = os.getenv('PRICE_TARGET_CATEGORY', 'linear')  # spot, linear, inverse
-    target_price_str = os.getenv('PRICE_TARGET_PRICE', '')
-    target_min_price_str = os.getenv('PRICE_TARGET_MIN_PRICE', '')
-    target_max_price_str = os.getenv('PRICE_TARGET_MAX_PRICE', '')
-    target_check_interval = int(os.getenv('PRICE_TARGET_CHECK_INTERVAL', '1'))
-    target_enabled = os.getenv('PRICE_TARGET_ENABLED', 'false').lower() == 'true'
-    
-    # Define legacy target config variables from config.py defaults
-    target_defaults = config.PRICE_TARGET_DEFAULTS
-    alert_type = target_defaults['alert_type']
-    alert_interval = target_defaults['alert_interval']
 
-    target_price = Decimal(target_price_str) if target_price_str else None
-    target_min_price = Decimal(target_min_price_str) if target_min_price_str else None
-    target_max_price = Decimal(target_max_price_str) if target_max_price_str else None
     
-    target_config = PriceTargetMonitorConfig(
-        exchange=target_exchange,
-        symbol=target_symbol,
-        category=target_category,
-        target_price=target_price,
-        min_price=target_min_price,
-        max_price=target_max_price,
-        check_interval=target_check_interval,
-        alert_type=alert_type,
-        alert_interval=alert_interval,
-        enabled=target_enabled
-    )
-    
-    target_monitor = PriceTargetMonitor(target_config)
+    target_monitor = None
     
     # 动态加载 SYMBOLn 本监控配置
     extra_monitors = []
@@ -1430,8 +1389,8 @@ async def main():
     # 启动Telegram控制器（支持多个监控器）
     from telegram_controller import TelegramController
     telegram_controller = TelegramController(
-        spread_monitor=spread_monitor,
-        volatility_monitor=volatility_monitor,
+        spread_monitors=spread_monitors,  # 改为列表
+        volatility_monitors=volatility_monitors,
         target_monitor=target_monitor,
         position_monitor=position_monitor,
         extra_monitors=extra_monitors
@@ -1446,16 +1405,16 @@ async def main():
     
     # 并行运行监控任务
     try:
-        tasks = [
-            asyncio.create_task(spread_monitor.start_monitoring()),
-        ]
+        tasks = []
         
-        if volatility_enabled:
-            tasks.append(asyncio.create_task(volatility_monitor.start_monitoring()))
+        # 添加所有价差监控任务
+        for sm in spread_monitors:
+            tasks.append(asyncio.create_task(sm.start_monitoring()))
         
-        if target_enabled:
-            tasks.append(asyncio.create_task(target_monitor.start_monitoring()))
-            
+        # 添加所有波动监控任务
+        for vm in volatility_monitors:
+            tasks.append(asyncio.create_task(vm.start_monitoring()))
+        
         if position_monitor_enabled and position_monitor:
             tasks.append(asyncio.create_task(position_monitor.start_monitoring()))
         

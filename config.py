@@ -21,42 +21,57 @@ TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_ALERT_CHAT_ID')
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# Price Monitor (Difference/Spread)
+# Price Spread Monitor (Backpack 现货 vs 合约) - 支持多币种
 # ------------------------------------------------------------------------------
-PRICE_MONITOR_CONFIG = {
-    'enabled': True,
-    'ticker': 'SOL',
-    'threshold_pct': Decimal("2.0"),
-    'check_interval': 1,
-    'alert_type': 'telegram',
-    'alert_cooldown': 0,
-    'alert_interval': 1
-}
+PRICE_MONITOR_CONFIGS = [
+    {'enabled': True, 'ticker': 'SOL', 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_cooldown': 0, 'alert_interval': 1},
+    {'enabled': True, 'ticker': 'BTC', 'threshold_pct': Decimal("0.5"), 'check_interval': 1, 'alert_cooldown': 0, 'alert_interval': 1},
+    {'enabled': True, 'ticker': 'ETH', 'threshold_pct': Decimal("0.8"), 'check_interval': 1, 'alert_cooldown': 0, 'alert_interval': 1},
+]
+
 
 # ------------------------------------------------------------------------------
-# Volatility Monitor
+# Volatility Monitor (Multi-Exchange, Multi-Coin)
+# 支持的交易所: binance, bybit, bitget, hyperliquid, lighter, backpack
+# 支持的币种: BTC, ETH, BNB, SOL, XRP, etc.
 # ------------------------------------------------------------------------------
-VOLATILITY_MONITOR_CONFIG = {
-    'enabled': True,
-    'ticker': 'BTC',
-    'time_window_sec': 60,
-    'threshold_pct': Decimal("1.0"),
-    'check_interval': 1,
-    'alert_type': 'telegram',
-    'alert_interval': 1
-}
+VOLATILITY_MONITOR_CONFIGS = [
+    # Binance
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    
+    # Bybit
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    
+    # Bitget
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    
+    # Hyperliquid
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    
+    # Lighter (API不返回价格数据,暂时禁用)
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    
+    
+    # Backpack
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+]
 
-# ------------------------------------------------------------------------------
-# Price Target Monitor (Bybit/Binance)
-# ------------------------------------------------------------------------------
-# Default settings for targets
-PRICE_TARGET_DEFAULTS = {
-    'enabled': False,
-    'exchange': 'bybit',
-    'check_interval': 1,
-    'alert_type': 'telegram',
-    'alert_interval': 1
-}
 
 # ------------------------------------------------------------------------------
 # Position Monitor (Backpack Hedging)
