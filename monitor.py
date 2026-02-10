@@ -20,7 +20,7 @@ from bpx.public import Public
 from alert_manager import AlertManager
 from logger import TradingLogger
 from bpx.account import Account
-from exchange_clients import get_exchange_price
+from exchange_clients import get_exchange_price, close_shared_session
 
 
 # 交易对符号映射：Backpack格式 -> 币安格式
@@ -128,10 +128,21 @@ class PriceMonitor:
         self.monitoring_paused = False  # 是否暂停监控
         self.alert_id = None  # 警报ID（由TelegramController设置）
         self.alert_registry = None  # 警报注册表引用
+        self.ws_client = None
+
+    def set_ws_client(self, ws_client):
+        """设置WebSocket客户端"""
+        self.ws_client = ws_client
     
     async def get_spot_price(self) -> Optional[Decimal]:
-        """获取现货价格（使用订单簿中间价，实时更新）"""
-        # 首先尝试从 Backpack 获取价格
+        """获取现货价格（优先WebSocket）"""
+        # 尝试从WebSocket获取
+        if self.ws_client:
+            price = self.ws_client.get_price(self.config.ticker)
+            if price:
+                return price
+                
+        # 降级到HTTP (Backpack API)
         try:
             # 优先使用订单簿中间价（实时更新），而不是lastPrice（仅在交易时更新）
             depth_data = self.public_client.get_depth(self.spot_symbol)
@@ -175,10 +186,16 @@ class PriceMonitor:
         return None
     
     async def get_futures_price(self) -> Optional[Decimal]:
-        """获取合约价格（使用订单簿中间价，实时更新）"""
-        # 首先尝试从 Backpack 获取价格
+        """获取合约价格（优先WebSocket）"""
+        # 尝试从WebSocket获取 (key suffix _PERP)
+        if self.ws_client:
+            price = self.ws_client.get_price(f"{self.config.ticker}_PERP")
+            if price:
+                return price
+
+        # 降级到HTTP
         try:
-            # 优先使用订单簿中间价（实时更新），而不是lastPrice（仅在交易时更新）
+            # 优先使用订单簿中间价（实时更新）
             depth_data = self.public_client.get_depth(self.futures_symbol)
             if depth_data and 'bids' in depth_data and 'asks' in depth_data:
                 bids = depth_data['bids']
@@ -292,6 +309,28 @@ class PriceMonitor:
                 self.stop_alerting = False
         
         return False
+
+    def get_status_detail(self) -> str:
+        """获取详细状态信息"""
+        if not self.price_history:
+            return f"📊 {self.config.ticker} 暂无历史数据"
+        
+        last = self.price_history[-1]
+        spot = last['spot']
+        futures = last['futures']
+        spread = last['spread_pct']
+        threshold = self.config.threshold_pct
+        direction = "合约溢价" if spread > 0 else "现货溢价"
+        
+        return (
+            f"📊 **{self.config.ticker} 价格监控详情**\n"
+            f"------------------------\n"
+            f"💰 现货价格: `${spot:.4f}`\n"
+            f"📈 合约价格: `${futures:.4f}`\n"
+            f"📉 当前价差: `{abs(spread):.4f}%` ({direction})\n"
+            f"⚠️ 报警阈值: `{threshold}%`\n"
+            f"⏱ 检查间隔: `{self.config.check_interval}s`"
+        )
     
     async def _continuous_alert(self):
         """持续发送提醒（每秒一次），直到收到停止命令或价差恢复正常"""
@@ -417,6 +456,7 @@ class PriceVolatilityMonitor:
         self.monitoring_paused = False  # 是否暂停监控（通过/continue恢复）
         self.alert_id = None  # 警报ID（由TelegramController设置）
         self.alert_registry = None  # 警报注册表引用
+        self.ws_client = None
     
     async def get_price(self) -> Optional[Decimal]:
         """获取价格 (使用exchange_clients)"""
@@ -462,7 +502,7 @@ class PriceVolatilityMonitor:
         if self.monitoring_paused:
             return False
         
-        price = await self.get_price()
+        price = await self.get_current_price()
         
         if price is None:
             self.logger.log("无法获取价格数据，跳过本次检查", "WARNING")
@@ -515,6 +555,35 @@ class PriceVolatilityMonitor:
             # 如果已经在持续提醒中，不重复启动
         
         return False
+
+    def get_status_detail(self) -> str:
+        """获取详细状态信息"""
+        if not self.price_history:
+             return f"📊 {self.config.exchange.upper()} {self.config.ticker} 暂无历史数据"
+        
+        # Calculate current volatility
+        vol_res = self.calculate_volatility()
+        last_price = self.price_history[-1][1]
+        
+        detail = (
+            f"📊 **{self.config.exchange.upper()} {self.config.ticker} 波动监控详情**\n"
+            f"------------------------\n"
+            f"💰 当前价格: `${last_price:.4f}`\n"
+        )
+        
+        if vol_res:
+            min_p, max_p, vol_pct, vol_abs = vol_res
+            detail += (
+                f"🌊 当前波动: `{vol_pct:.4f}%` (${vol_abs:.4f})\n"
+                f"⚠️ 报警阈值: `{self.config.volatility_threshold_pct}%`\n"
+                f"⏱ 时间窗口: `{self.config.time_window_sec}s`\n"
+                f"📉 最低价格: `${min_p:.4f}`\n"
+                f"📈 最高价格: `${max_p:.4f}`"
+            )
+        else:
+            detail += f"ℹ️ 数据不足计算波动 (需更多数据点)"
+            
+        return detail
     
     async def _continuous_alert(self):
         """持续发送提醒（每秒一次），直到收到停止命令或波动恢复正常"""
@@ -604,6 +673,20 @@ class PriceVolatilityMonitor:
         
         self.logger.log(f"🛑 持续提醒循环已停止", "INFO")
         self.alerting = False
+        
+    def set_ws_client(self, ws_client):
+        """设置WebSocket客户端"""
+        self.ws_client = ws_client
+        
+    async def get_current_price(self) -> Optional[Decimal]:
+        """获取当前价格 (优先WebSocket)"""
+        if self.ws_client:
+            price = self.ws_client.get_price(self.config.ticker)
+            if price:
+                return price
+        
+        # 降级到HTTP
+        return await get_exchange_price(self.config.exchange, self.config.ticker)
     
     async def start_monitoring(self):
         """开始监控循环"""
@@ -678,6 +761,7 @@ class PriceTargetMonitor:
         self.trigger_reason = ""  # 触发原因：below_min, above_max, above_target
         self.alert_id = None  # 警报ID（由TelegramController设置）
         self.alert_registry = None  # 警报注册表引用
+        self.last_status_str = "⏳ 尚未进行首次检查"
     
     async def get_price(self) -> Optional[Decimal]:
         """获取价格"""
@@ -847,8 +931,22 @@ class PriceTargetMonitor:
                 self.logger.log(f"📉 价格回到正常范围，重置监控状态", "INFO")
             self.target_reached = False
             self.trigger_reason = ""
+            
+        # 更新状态字符串
+        self.last_status_str = (
+            f"📊 **{self.config.symbol} 价格监控详情**\n"
+            f"------------------------\n"
+            f"💰 当前价格: `${current_price:.2f}`\n"
+            f"🎯 监控条件: {status_info}\n"
+            f"⚠️ 当前状态: {status_display}\n"
+            f"⏱ 检查间隔: `{self.config.check_interval}s`"
+        )
         
         return False
+    
+    def get_status_detail(self) -> str:
+        """获取详细状态信息"""
+        return self.last_status_str
     
     async def _continuous_alert(self):
         """持续发送提醒（每秒一次），直到收到停止命令或价格回落"""
@@ -1047,10 +1145,12 @@ class PositionMonitor:
         # 持续提醒控制
         self.alerting = False
         self.stop_alerting = False
+        self.ws_client = None
         self.monitoring_paused = False
         self.triggered_accounts = set()  # 记录触发报警的账户名
         self.alert_id = None  # 警报ID（由TelegramController设置）
         self.alert_registry = None  # 警报注册表引用
+        self.last_status_str = "⏳ 尚未进行首次检查"
 
     async def get_account_positions(self, client, account_name: str) -> Dict[str, Tuple[Decimal, Decimal]]:
         """获取账户的现货和合约持仓，返回 {symbol: (spot_qty, futures_qty)}"""
@@ -1065,39 +1165,59 @@ class PositionMonitor:
             # 1. 获取现货余额 (Collateral or Balances)
             try:
                 collateral_info = client.get_collateral()
-                if collateral_info and 'collateral' in collateral_info:
-                    for asset in collateral_info['collateral']:
-                        asset_symbol = asset.get('symbol')
-                        if asset_symbol in target_symbols:
-                            spot_qty = Decimal(str(asset.get('totalQuantity', 0)))
-                            # Update only spot, keep futures 0 for now
-                            result[asset_symbol] = (spot_qty, result[asset_symbol][1])
+                if collateral_info:
+                    if isinstance(collateral_info, dict) and 'collateral' in collateral_info:
+                        for asset in collateral_info['collateral']:
+                            asset_symbol = asset.get('symbol')
+                            if asset_symbol in target_symbols:
+                                spot_qty = Decimal(str(asset.get('totalQuantity', 0)))
+                                # Update only spot, keep futures 0 for now
+                                result[asset_symbol] = (spot_qty, result[asset_symbol][1])
+                    else:
+                        self.logger.log(f"get_collateral 返回非常规类型: {type(collateral_info)} - {collateral_info}", "WARNING")
+
             except Exception as e:
                 self.logger.log(f"获取Collateral失败: {e} - 尝试回退到get_balances", "WARNING")
                 # Fallback to get_balances
-                balances = client.get_balances()
-                if balances and isinstance(balances, dict):
-                    for symbol in target_symbols:
-                        if symbol in balances:
-                             spot_balance = balances.get(symbol, {})
-                             spot_qty = Decimal(str(spot_balance.get('available', 0))) + \
-                                        Decimal(str(spot_balance.get('locked', 0)))
-                             result[symbol] = (spot_qty, result[symbol][1])
+                try:
+                    balances = client.get_balances()
+                    if balances and isinstance(balances, dict):
+                        for symbol in target_symbols:
+                            if symbol in balances:
+                                 spot_balance = balances.get(symbol, {})
+                                 if isinstance(spot_balance, dict):
+                                     spot_qty = Decimal(str(spot_balance.get('available', 0))) + \
+                                                Decimal(str(spot_balance.get('locked', 0)))
+                                     result[symbol] = (spot_qty, result[symbol][1])
+                    elif balances:
+                        self.logger.log(f"get_balances 返回非字典: {type(balances)} - {balances}", "WARNING")
+                except Exception as be:
+                    self.logger.log(f"get_balances 也失败: {be}", "WARNING")
             
             # 2. 获取合约持仓
-            positions = client.get_open_positions()
-            if positions:
-                for pos in positions:
-                    pos_symbol = pos.get('symbol', '')
-                    # 检查是否是我们监控的合约 (e.g. SOL_USDC_PERP or BTC_USDC_PERP)
-                    for mon_symbol in target_symbols:
-                        futures_symbol_patterns = [f"{mon_symbol}_USDC_PERP", f"{mon_symbol}_USDT_PERP"]
-                        if pos_symbol in futures_symbol_patterns:
-                            futures_qty = Decimal(str(pos.get('netQuantity', 0)))
-                            # Update futures, keep spot as is
-                            current_spot = result[mon_symbol][0]
-                            result[mon_symbol] = (current_spot, futures_qty)
-                            break
+            try:
+                positions = client.get_open_positions()
+                if positions:
+                    if isinstance(positions, list):
+                        for pos in positions:
+                            if not isinstance(pos, dict):
+                                self.logger.log(f"Position item 不是字典: {type(pos)} - {pos}", "WARNING")
+                                continue
+                                
+                            pos_symbol = pos.get('symbol', '')
+                            # 检查是否是我们监控的合约 (e.g. SOL_USDC_PERP or BTC_USDC_PERP)
+                            for mon_symbol in target_symbols:
+                                futures_symbol_patterns = [f"{mon_symbol}_USDC_PERP", f"{mon_symbol}_USDT_PERP"]
+                                if pos_symbol in futures_symbol_patterns:
+                                    futures_qty = Decimal(str(pos.get('netQuantity', 0)))
+                                    # Update futures, keep spot as is
+                                    current_spot = result[mon_symbol][0]
+                                    result[mon_symbol] = (current_spot, futures_qty)
+                                    break
+                    else:
+                         self.logger.log(f"get_open_positions 返回非列表: {type(positions)} - {positions}", "WARNING")
+            except Exception as pe:
+                 self.logger.log(f"获取合约持仓失败: {pe}", "WARNING")
             
             return result
         except Exception as e:
@@ -1111,6 +1231,9 @@ class PositionMonitor:
             
         triggered_any = False
         new_triggered_accounts = set()
+        
+        # 收集当前状态信息
+        current_status_lines = ["📊 **账户持仓详情**", "------------------------"]
         
         for account in self.account_clients:
             name = account['name']
@@ -1129,6 +1252,14 @@ class PositionMonitor:
                 # 计算风险敞口: abs(spot_qty + futures_qty)
                 net_exposure = abs(spot_qty + futures_qty)
                 diff_msg = f"[{symbol}] 现货: {spot_qty:.4f}, 合约: {futures_qty:.4f}, 净敞口: {net_exposure:.4f} (阈值: {threshold})"
+                
+                # 添加到状态详情
+                status_icon = "✅" if net_exposure <= threshold else "🚨"
+                status_line = (f"{status_icon} **{name}** [{symbol}]\n"
+                               f"   现货: `{spot_qty:.4f}`\n"
+                               f"   合约: `{futures_qty:.4f}`\n"
+                               f"   净敞口: `{net_exposure:.4f}` (阈值 {threshold})")
+                current_status_lines.append(status_line)
                 
                 self.logger.log(f"⚖️ 持仓检查 - 账户 {name}: {diff_msg}", "INFO")
                 
@@ -1154,7 +1285,14 @@ class PositionMonitor:
             self.stop_alerting = False
             self.triggered_accounts.clear()
             
+        # 更新最后状态字符串
+        self.last_status_str = "\n".join(current_status_lines)
+            
         return False
+    
+    def get_status_detail(self) -> str:
+        """获取详细状态信息"""
+        return self.last_status_str
 
     async def _continuous_alert(self):
         """持续提醒循环"""
@@ -1403,16 +1541,76 @@ async def main():
         # 发送启动通知
         await telegram_controller.send_startup_notification()
     
+
+    # 初始化WebSocket客户端
+    ws_clients = {}
+    try:
+        # 收集需要监控的币种
+        exchange_tickers = {}
+        
+        # 从波动监控配置收集
+        for vol_config in config.VOLATILITY_MONITOR_CONFIGS:
+            if not vol_config['enabled']: continue
+            ex = vol_config['exchange'].lower()
+            ticker = vol_config['ticker']
+            if ex not in exchange_tickers: exchange_tickers[ex] = set()
+            exchange_tickers[ex].add(ticker)
+            
+        # 从价差监控配置收集
+        for price_config in config.PRICE_MONITOR_CONFIGS:
+            if not price_config['enabled']: continue
+            ex = price_config.get('exchange', 'backpack').lower()
+            ticker = price_config['ticker']
+            if ex not in exchange_tickers: exchange_tickers[ex] = set()
+            exchange_tickers[ex].add(ticker)
+            
+        # 创建客户端
+        from exchange_websockets import (
+            BinanceWSClient, BybitWSClient, BitgetWSClient, 
+            HyperliquidWSClient, BackpackWSClient
+        )
+        
+        client_map = {
+            'binance': BinanceWSClient,
+            'bybit': BybitWSClient,
+            'bitget': BitgetWSClient,
+            'hyperliquid': HyperliquidWSClient,
+            'backpack': BackpackWSClient
+        }
+        
+        for ex, tickers in exchange_tickers.items():
+            if ex in client_map and tickers:
+                client_class = client_map[ex]
+                client = client_class(list(tickers))
+                ws_clients[ex] = client
+                print(f"初始化 {ex} WebSocket客户端, 监控: {tickers}")
+                
+    except Exception as e:
+        print(f"WebSocket初始化失败: {e}")
+
     # 并行运行监控任务
     try:
         tasks = []
         
+        # 启动WebSocket客户端
+        for client in ws_clients.values():
+            tasks.append(asyncio.create_task(client.start()))
+        
         # 添加所有价差监控任务
         for sm in spread_monitors:
+            # 注入WS客户端 (PriceMonitor defaults to Backpack)
+            # ex = sm.config.exchange.lower() # PriceMonitor config has no exchange field
+            ex = 'backpack'
+            if ex in ws_clients:
+                sm.set_ws_client(ws_clients[ex])
             tasks.append(asyncio.create_task(sm.start_monitoring()))
         
         # 添加所有波动监控任务
         for vm in volatility_monitors:
+            # 注入WS客户端
+            ex = vm.config.exchange.lower()
+            if ex in ws_clients:
+                vm.set_ws_client(ws_clients[ex])
             tasks.append(asyncio.create_task(vm.start_monitoring()))
         
         if position_monitor_enabled and position_monitor:
@@ -1424,6 +1622,7 @@ async def main():
         
         # 等待所有任务完成
         if tasks:
+            print("🚀 所有监控任务已启动")
             await asyncio.gather(*tasks)
         else:
             print("没有活动的监控任务")
@@ -1431,11 +1630,24 @@ async def main():
     except KeyboardInterrupt:
         print("\n监控停止（用户中断）")
     finally:
+        # 停止WebSocket客户端
+        print("正在关闭WebSocket连接...")
+        for client in ws_clients.values():
+            client.running = False
+            if client.ws:
+                await client.ws.close()
         # 清理：停止Telegram控制器
         if telegram_controller.enabled:
             # 发送停止通知
             await telegram_controller.send_shutdown_notification()
             await telegram_controller.stop_bot()
+        
+        # 关闭共享session
+        try:
+            await close_shared_session()
+            print("✅ 已关闭共享HTTP会话")
+        except Exception as e:
+            print(f"⚠️ 关闭共享会话失败: {e}")
 
 
 if __name__ == "__main__":

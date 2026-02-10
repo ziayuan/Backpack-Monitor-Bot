@@ -28,37 +28,101 @@
 1. **安装依赖**:
    ```bash
    pip install -r requirements.txt
-   ```
+1.  **安装依赖**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-2. **配置**:
-   - **敏感信息**: 复制 `.env.example` 到 `.env` 并填写 API Key 和 Telegram Token。
-   - **监控逻辑**: 修改 `config.py` 来调整阈值、监控币种和时间间隔。
-     - `PRICE_MONITOR_CONFIGS`: 价差监控配置
-     - `VOLATILITY_MONITOR_CONFIGS`: 多交易所波动监控配置
-     - `POSITION_TICKER_CONFIGS`: 持仓监控配置
+2.  **配置**:
+    -   **敏感信息**: 复制 `.env.example` 到 `.env` 并填写 API Key 和 Telegram Token。
+    -   **监控逻辑**: 修改 `config.py` 来调整阈值、监控币种和时间间隔。
+        -   `PRICE_MONITOR_CONFIGS`: 价差监控配置
+        -   `VOLATILITY_MONITOR_CONFIGS`: 多交易所波动监控配置
+        -   `POSITION_TICKER_CONFIGS`: 持仓监控配置
 
-3. **后台运行 (推荐)**:
-   ```bash
-   ./run.sh
-   ```
-   
-4. **停止**:
-   ```bash
-   ./stop.sh
-   # 或者在 Telegram 中发送 /shutdown
-   ```
+3.  **后台运行 (推荐)**:
+    ```bash
+    ./run.sh
+    ```
 
-## 命令控制
+4.  **停止**:
+    ```bash
+    ./stop.sh
+    # 或者在 Telegram 中发送 /shutdown
+    ```
 
-在 Telegram 中可以使用以下命令控制机器人：
+## ☁️ 云服务器部署指南
 
-| 命令 | 说明 |
-|------|------|
-| `/start` | 显示帮助信息 |
-| `/status` | 查看所有监控器的状态及编号 |
-| `/stop <编号>` | 停止指定编号的警报（不会停止进程） |
-| `/continue` | 恢复所有被停止的警报 |
-| `/shutdown` | 🔴 停止整个机器人进程（需手动重启） |
+推荐使用 Ubuntu 22.04 LTS 或其他主流 Linux 发行版。
+
+### 1. 环境准备
+```bash
+# 更新系统
+sudo apt update && sudo apt upgrade -y
+
+# 安装 Python 3.10+ 和 pip
+sudo apt install python3 python3-pip python3-venv git -y
+```
+
+### 2. 获取代码
+```bash
+# 克隆仓库
+git clone <repository_url> monitor_bot
+cd monitor_bot
+```
+
+### 3. 安装依赖
+```bash
+# 创建虚拟环境
+python3 -m venv venv
+
+# 激活虚拟环境
+source venv/bin/activate
+
+# 安装依赖
+pip install -r requirements.txt
+```
+
+### 4. 配置
+```bash
+# 复制配置文件
+cp .env.example .env
+
+# 编辑配置 (填入你的 API Key 和 Telegram Token)
+nano .env
+```
+
+### 5. 运行
+建议使用 `run.sh` 脚本在后台运行:
+```bash
+# 添加执行权限
+chmod +x run.sh stop.sh
+
+# 启动机器人 (自动后台运行，日志输出到 monitor.log)
+./run.sh
+```
+
+### 6. 维护
+- **查看日志**: `tail -f monitor.log`
+- **停止机器人**: `./stop.sh` 或在 Telegram 中发送 `/shutdown`
+- **更新代码**:
+  ```bash
+  git pull
+  pip install -r requirements.txt
+  ./stop.sh
+  ./run.sh
+  ```
+
+## 📱 Telegram 命令列表
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `/start` | 显示帮助信息 | `/start` |
+| `/status` | 查看所有监控概览 | `/status` |
+| `/status <id>` | 查看指定监控的详细实时数据 | `/status 1` |
+| `/stop <id>` | 停止指定 ID 的警报 | `/stop 1` |
+| `/continue` | 恢复所有被停止/静默的警报 | `/continue` |
+| `/shutdown` | 停止整个机器人进程 | `/shutdown` |
 
 **使用示例**:
 - `/status` -> 查看警报列表，例如 `21 - Backpack SOL 波动监控`

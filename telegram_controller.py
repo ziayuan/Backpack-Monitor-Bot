@@ -87,11 +87,30 @@ class AlertRegistry:
         return True
     
     def unmute_all(self) -> int:
-        """取消所有静默，返回取消的数量"""
+        """
+        取消所有静默 / 恢复所有暂停的警报
+        包括被 /get 静默的 和 被 /stop 手动停止的
+        """
         count = 0
-        for alert_id in list(self.muted_until.keys()):
-            if self.unmute(alert_id):
+        # 遍历所有注册的警报
+        for alert_id in list(self.alerts.keys()):
+            # 只要处于非正常状态（静默或暂停），就尝试恢复
+            is_muted = alert_id in self.muted_until
+            monitor = self.alerts[alert_id]['monitor']
+            is_paused = monitor and getattr(monitor, 'monitoring_paused', False)
+            
+            if is_muted or is_paused:
+                # 移除静默标记
+                if alert_id in self.muted_until:
+                    del self.muted_until[alert_id]
+                
+                # 恢复监控器状态
+                if monitor:
+                    monitor.monitoring_paused = False
+                    monitor.stop_alerting = False
+                
                 count += 1
+                
         return count
     
     def get_status_text(self) -> str:
@@ -101,6 +120,9 @@ class AlertRegistry:
         
         lines = ["📋 **警报列表**\n"]
         
+        # 预先获取时间，避免在循环中重复调用
+        now = time.time()
+        
         for alert_id in sorted(self.alerts.keys()):
             info = self.alerts[alert_id]
             monitor = info['monitor']
@@ -108,8 +130,11 @@ class AlertRegistry:
             # 状态指示
             status_parts = []
             
-            if self.is_muted(alert_id):
-                remaining = self.get_remaining_mute_time(alert_id)
+            # check mute directly to save function call overhead
+            is_muted = alert_id in self.muted_until and now < self.muted_until[alert_id]
+            
+            if is_muted:
+                remaining = int(self.muted_until[alert_id] - now)
                 if remaining >= 60:
                     status_parts.append(f"🔇 静默中 ({remaining // 60}分钟)")
                 else:
@@ -123,7 +148,8 @@ class AlertRegistry:
             
             status_str = " ".join(status_parts)
             lines.append(f"**{alert_id}** - {info['name']}: {status_str}")
-            lines.append(f"    {info['description']}")
+            # 简化输出，去掉描述行以减小消息体积
+            # lines.append(f"    {info['description']}")
         
         lines.append("\n💡 使用 `/stop <编号>` 停止警报")
         lines.append("例如: `/stop 1` 停止1号警报")
@@ -250,7 +276,8 @@ class TelegramController:
             "👋 价格提醒机器人控制\n\n"
             "可用命令：\n"
             "/start - 显示帮助\n"
-            "/status - 查看所有警报状态\n"
+            "/status - 查看所有警报状态概览\n"
+            "/status <编号> - 查看指定警报的详细数据\n"
             "/stop <编号> - 停止指定警报\n"
             "/continue - 恢复所有警报\n"
             "/shutdown - 🔴 停止机器人进程"
@@ -336,6 +363,24 @@ class TelegramController:
         """处理/status命令 - 查看状态"""
         if str(update.effective_chat.id) != str(self.chat_id):
             await update.message.reply_text("❌ 您没有权限使用此机器人")
+            return
+        
+        args = context.args
+        # 如果指定了ID且不是all，则显示详细信息
+        if args and args[0].lower() != 'all':
+            try:
+                alert_id = int(args[0])
+                if alert_id in self.alert_registry.alerts:
+                    monitor = self.alert_registry.alerts[alert_id]['monitor']
+                    if hasattr(monitor, 'get_status_detail'):
+                        detail = monitor.get_status_detail()
+                        await update.message.reply_text(detail, parse_mode='Markdown')
+                    else:
+                        await update.message.reply_text(f"⚠️ 警报 #{alert_id} 不支持详细状态查询")
+                else:
+                    await update.message.reply_text(f"❌ 警报 #{alert_id} 不存在")
+            except ValueError:
+                await update.message.reply_text("❌ 请输入有效的警报编号 (例如: /status 1) 或使用 /status all")
             return
         
         status_text = self.alert_registry.get_status_text()

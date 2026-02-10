@@ -24,6 +24,26 @@ class ExchangeClient(ABC):
         pass
 
 
+
+# 共享会话
+_SHARED_SESSION: Optional[aiohttp.ClientSession] = None
+
+async def get_shared_session() -> aiohttp.ClientSession:
+    """获取共享的aiohttp session"""
+    global _SHARED_SESSION
+    if _SHARED_SESSION is None or _SHARED_SESSION.closed:
+        # 设置连接池限制和DNS缓存
+        connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=300)
+        _SHARED_SESSION = aiohttp.ClientSession(connector=connector)
+    return _SHARED_SESSION
+
+async def close_shared_session():
+    """关闭共享session"""
+    global _SHARED_SESSION
+    if _SHARED_SESSION and not _SHARED_SESSION.closed:
+        await _SHARED_SESSION.close()
+
+
 class BinanceClient(ExchangeClient):
     """Binance 价格获取客户端"""
     
@@ -39,12 +59,12 @@ class BinanceClient(ExchangeClient):
         url = f"{self.BASE_URL}/ticker/price?symbol={symbol}"
         
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if 'price' in data:
-                            return Decimal(str(data['price']))
+            session = await get_shared_session()
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if 'price' in data:
+                        return Decimal(str(data['price']))
         except Exception as e:
             print(f"⚠️ Binance 获取 {ticker} 价格失败: {e}")
         return None
@@ -63,10 +83,11 @@ class BybitClient(ExchangeClient):
         """获取Bybit价格 (尝试linear合约，再尝试spot)"""
         symbol = f"{ticker.upper()}USDT"
         
-        for category in ["linear", "spot"]:
-            url = f"{self.BASE_URL}/tickers?category={category}&symbol={symbol}"
-            try:
-                async with aiohttp.ClientSession() as session:
+        try:
+            session = await get_shared_session()
+            for category in ["linear", "spot"]:
+                url = f"{self.BASE_URL}/tickers?category={category}&symbol={symbol}"
+                try:
                     async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
                         if response.status == 200:
                             data = await response.json()
@@ -74,8 +95,10 @@ class BybitClient(ExchangeClient):
                                 ticker_data = data['result']['list'][0]
                                 if 'lastPrice' in ticker_data:
                                     return Decimal(str(ticker_data['lastPrice']))
-            except Exception as e:
-                print(f"⚠️ Bybit ({category}) 获取 {ticker} 价格失败: {e}")
+                except Exception:
+                    continue
+        except Exception as e:
+            print(f"⚠️ Bybit 获取 {ticker} 价格失败: {e}")
         return None
 
 
@@ -94,14 +117,14 @@ class BitgetClient(ExchangeClient):
         url = f"{self.BASE_URL}/spot/market/tickers?symbol={symbol}"
         
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if data.get('data') and len(data['data']) > 0:
-                            ticker_data = data['data'][0]
-                            if 'lastPr' in ticker_data:
-                                return Decimal(str(ticker_data['lastPr']))
+            session = await get_shared_session()
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if data.get('data') and len(data['data']) > 0:
+                        ticker_data = data['data'][0]
+                        if 'lastPr' in ticker_data:
+                            return Decimal(str(ticker_data['lastPr']))
         except Exception as e:
             print(f"⚠️ Bitget 获取 {ticker} 价格失败: {e}")
         return None
@@ -119,21 +142,20 @@ class HyperliquidClient(ExchangeClient):
     async def get_price(self, ticker: str) -> Optional[Decimal]:
         """获取Hyperliquid价格 (通过allMids)"""
         try:
-            async with aiohttp.ClientSession() as session:
-                payload = {"type": "allMids"}
-                headers = {"Content-Type": "application/json"}
-                async with session.post(
-                    self.BASE_URL,
-                    json=payload,
-                    headers=headers,
-                    timeout=aiohttp.ClientTimeout(total=5)
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        # data格式: {"BTC": "98000.5", "ETH": "3500.0", ...}
-                        ticker_upper = ticker.upper()
-                        if ticker_upper in data:
-                            return Decimal(str(data[ticker_upper]))
+            session = await get_shared_session()
+            payload = {"type": "allMids"}
+            headers = {"Content-Type": "application/json"}
+            async with session.post(
+                self.BASE_URL,
+                json=payload,
+                headers=headers,
+                timeout=aiohttp.ClientTimeout(total=5)
+            ) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    ticker_upper = ticker.upper()
+                    if ticker_upper in data:
+                        return Decimal(str(data[ticker_upper]))
         except Exception as e:
             print(f"⚠️ Hyperliquid 获取 {ticker} 价格失败: {e}")
         return None
@@ -149,46 +171,8 @@ class LighterClient(ExchangeClient):
         return "Lighter"
     
     async def get_price(self, ticker: str) -> Optional[Decimal]:
-        """获取Lighter价格 (通过orderBooks)"""
-        ticker_upper = ticker.upper()
-        url = f"{self.BASE_URL}/orderBooks"
-        
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        # 查找对应的市场 (通过symbol字段)
-                        if data and 'order_books' in data:
-                            for ob in data['order_books']:
-                                if ob.get('symbol') == ticker_upper:
-                                    # 需要另外获取价格数据
-                                    market_id = ob.get('market_id')
-                                    if market_id is not None:
-                                        return await self._get_market_price(market_id)
-        except Exception as e:
-            print(f"⚠️ Lighter 获取 {ticker} 价格失败: {e}")
-        return None
-    
-    async def _get_market_price(self, market_id: int) -> Optional[Decimal]:
-        """获取指定市场的价格"""
-        url = f"{self.BASE_URL}/orderBook?market_id={market_id}"
-        
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        # 使用best bid/ask中间价
-                        bids = data.get('bids', [])
-                        asks = data.get('asks', [])
-                        if bids and asks:
-                            best_bid = Decimal(str(bids[0]['price']))
-                            best_ask = Decimal(str(asks[0]['price']))
-                            return (best_bid + best_ask) / 2
-        except Exception as e:
-            print(f"⚠️ Lighter 获取市场{market_id}价格失败: {e}")
-        return None
+        """获取Lighter价格"""
+        return None # 暂不支持
 
 
 class BackpackClient(ExchangeClient):
@@ -206,12 +190,12 @@ class BackpackClient(ExchangeClient):
         url = f"{self.BASE_URL}/ticker?symbol={symbol}"
         
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if 'lastPrice' in data:
-                            return Decimal(str(data['lastPrice']))
+            session = await get_shared_session()
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if 'lastPrice' in data:
+                        return Decimal(str(data['lastPrice']))
         except Exception as e:
             print(f"⚠️ Backpack 获取 {ticker} 价格失败: {e}")
         return None
@@ -229,21 +213,11 @@ EXCHANGE_CLIENTS: Dict[str, ExchangeClient] = {
 
 
 async def get_exchange_price(exchange: str, ticker: str) -> Optional[Decimal]:
-    """
-    获取指定交易所的币种价格
-    
-    Args:
-        exchange: 交易所名称 (binance, bybit, bitget, hyperliquid, lighter, backpack)
-        ticker: 币种 (BTC, ETH, SOL, etc.)
-    
-    Returns:
-        价格 (Decimal) 或 None
-    """
+    """获取指定交易所的币种价格"""
     exchange_lower = exchange.lower()
     client = EXCHANGE_CLIENTS.get(exchange_lower)
     
     if not client:
-        print(f"⚠️ 不支持的交易所: {exchange}")
         return None
     
     return await client.get_price(ticker)
@@ -259,15 +233,22 @@ async def _test():
     """测试所有交易所的价格获取"""
     tickers = ["BTC", "ETH", "SOL"]
     
-    for exchange in get_supported_exchanges():
-        print(f"\n=== {exchange.upper()} ===")
-        for ticker in tickers:
-            price = await get_exchange_price(exchange, ticker)
-            if price:
-                print(f"  {ticker}: ${price:.2f}")
-            else:
-                print(f"  {ticker}: ❌ 获取失败")
+    try:
+        for exchange in get_supported_exchanges():
+            if exchange == 'lighter': continue
+            print(f"\n=== {exchange.upper()} ===")
+            for ticker in tickers:
+                price = await get_exchange_price(exchange, ticker)
+                if price:
+                    print(f"  {ticker}: ${price:.2f}")
+                else:
+                    print(f"  {ticker}: ❌ 获取失败")
+    finally:
+        await close_shared_session()
 
+
+if __name__ == "__main__":
+    asyncio.run(_test())
 
 if __name__ == "__main__":
     asyncio.run(_test())

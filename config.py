@@ -37,39 +37,39 @@ PRICE_MONITOR_CONFIGS = [
 # ------------------------------------------------------------------------------
 VOLATILITY_MONITOR_CONFIGS = [
     # Binance
-    {'enabled': True, 'exchange': 'binance', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'binance', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'binance', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'binance', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'binance', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'binance', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
     
     # Bybit
-    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bybit', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bybit', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bybit', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'BNB', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bybit', 'ticker': 'XRP', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
     
     # Bitget
-    {'enabled': True, 'exchange': 'bitget', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bitget', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'bitget', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'bitget', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
     
     # Hyperliquid
-    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'hyperliquid', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
     
     # Lighter (API不返回价格数据,暂时禁用)
-    {'enabled': False, 'exchange': 'lighter', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': False, 'exchange': 'lighter', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': False, 'exchange': 'lighter', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': False, 'exchange': 'lighter', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
     
     
     # Backpack
-    {'enabled': True, 'exchange': 'backpack', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'backpack', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 1, 'alert_interval': 1},
-    {'enabled': True, 'exchange': 'backpack', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 1, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'BTC', 'time_window_sec': 60, 'threshold_pct': Decimal("1.0"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'ETH', 'time_window_sec': 60, 'threshold_pct': Decimal("1.5"), 'check_interval': 3, 'alert_interval': 1},
+    {'enabled': True, 'exchange': 'backpack', 'ticker': 'SOL', 'time_window_sec': 60, 'threshold_pct': Decimal("2.0"), 'check_interval': 3, 'alert_interval': 1},
 ]
 
 
