@@ -160,7 +160,7 @@ class AlertRegistry:
 class TelegramController:
     """Telegram命令控制器"""
     
-    def __init__(self, spread_monitors=None, volatility_monitors=None, target_monitor=None, position_monitor=None, extra_monitors=None):
+    def __init__(self, spread_monitors=None, volatility_monitors=None, target_monitor=None, position_monitor=None, extra_monitors=None, iv_monitors=None):
         """
         初始化控制器
         
@@ -170,6 +170,7 @@ class TelegramController:
             target_monitor: PriceTargetMonitor实例，用于价格目标监控控制
             position_monitor: PositionMonitor实例，用于持仓监控控制
             extra_monitors: list[PriceTargetMonitor]，用于其他动态配置的监控控制
+            iv_monitors: list[DeribitIVMonitor]，用于Deribit IV监控控制
         """
         self.bot_token = os.getenv('TELEGRAM_ALERT_BOT_TOKEN')
         self.chat_id = os.getenv('TELEGRAM_ALERT_CHAT_ID')
@@ -178,6 +179,7 @@ class TelegramController:
         self.target_monitor = target_monitor
         self.position_monitor = position_monitor
         self.extra_monitors = extra_monitors or []
+        self.iv_monitors = iv_monitors or []
         self.application = None
         
         if not all([self.bot_token, self.chat_id]):
@@ -254,6 +256,19 @@ class TelegramController:
                     monitor
                 )
                 alert_id += 1
+        
+        # Deribit IV监控
+        for ivm in self.iv_monitors:
+            currency = getattr(ivm.config, 'currency', 'BTC')
+            iv_threshold = getattr(ivm.config, 'iv_volatility_threshold', '?')
+            btc_threshold = getattr(ivm.config, 'btc_volatility_threshold_pct', '?')
+            self.alert_registry.register(
+                alert_id,
+                f"Deribit-{currency} DVOL",
+                f"IV波动>{iv_threshold}% + BTC波动>{btc_threshold}%",
+                ivm
+            )
+            alert_id += 1
     
     def _get_target_description(self, monitor) -> str:
         """获取价格目标监控的描述"""

@@ -1372,6 +1372,321 @@ class PositionMonitor:
                 await asyncio.sleep(self.config.check_interval)
 
 
+@dataclass
+class DeribitIVMonitorConfig:
+    """Deribit隐含波动率(DVOL)复合条件监控配置"""
+    currency: str = "BTC"  # 币种: BTC, ETH
+    iv_volatility_threshold: Decimal = Decimal("3.0")  # DVOL波动阈值（百分比变动幅度）
+    time_window_sec: int = 120  # DVOL波动时间窗口（秒）
+    btc_volatility_threshold_pct: Decimal = Decimal("1.0")  # Binance BTC价格波动阈值（%）
+    check_interval: int = 5  # 检查间隔（秒）
+    alert_type: str = "telegram"  # 提醒类型
+    alert_interval: int = 60  # 持续提醒时的发送间隔（秒）
+    enabled: bool = True
+
+
+class DeribitIVMonitor:
+    """Deribit隐含波动率(DVOL)复合条件监控器
+    
+    复合触发条件（同时满足）：
+    1. DVOL在time_window内的波动幅度超过iv_volatility_threshold%
+    2. Binance BTC 1分钟价格波动率超过btc_volatility_threshold_pct%
+    """
+    
+    DERIBIT_API_BASE = "https://www.deribit.com/api/v2"
+    
+    def __init__(self, config: DeribitIVMonitorConfig):
+        self.config = config
+        self.logger = TradingLogger(exchange="alert_deribit", ticker=f"{config.currency}_DVOL", log_to_console=True)
+        self.alert_manager = AlertManager()
+        
+        # IV历史记录: [(timestamp, iv_value), ...]
+        self.iv_history: List[Tuple[float, Decimal]] = []
+        
+        # 当前IV值
+        self.current_iv: Optional[Decimal] = None
+        self.last_update_time: Optional[float] = None
+        
+        # Binance BTC波动监控器引用（由main()注入）
+        self.btc_volatility_monitor = None
+        
+        # 持续提醒控制
+        self.alerting = False
+        self.stop_alerting = False
+        self.monitoring_paused = False
+        self.alert_id = None
+        self.alert_registry = None
+        self.ws_client = None  # 兼容接口
+    
+    def set_ws_client(self, ws_client):
+        """兼容接口"""
+        self.ws_client = ws_client
+    
+    def set_btc_volatility_monitor(self, monitor):
+        """设置Binance BTC波动监控器引用（用于复合条件判断）"""
+        self.btc_volatility_monitor = monitor
+        self.logger.log(f"✅ 已关联Binance BTC波动监控器", "INFO")
+    
+    async def get_dvol(self) -> Optional[Decimal]:
+        """从Deribit获取当前DVOL值"""
+        try:
+            now_ms = int(time.time() * 1000)
+            start_ms = now_ms - 120_000
+            
+            url = (
+                f"{self.DERIBIT_API_BASE}/public/get_volatility_index_data"
+                f"?currency={self.config.currency.upper()}"
+                f"&resolution=1"
+                f"&start_timestamp={start_ms}"
+                f"&end_timestamp={now_ms}"
+            )
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                    if response.status == 200:
+                        result = await response.json()
+                        data = result.get('result', {}).get('data', [])
+                        if data:
+                            latest = data[-1]
+                            iv_value = Decimal(str(latest[4]))  # close
+                            self.current_iv = iv_value
+                            self.last_update_time = time.time()
+                            return iv_value
+                        else:
+                            self.logger.log(f"Deribit API返回空数据", "WARNING")
+                    else:
+                        self.logger.log(f"Deribit API返回错误状态码: {response.status}", "WARNING")
+        except asyncio.TimeoutError:
+            self.logger.log(f"Deribit API请求超时", "WARNING")
+        except Exception as e:
+            self.logger.log(f"从Deribit获取DVOL失败: {e}", "WARNING")
+        
+        return None
+    
+    def calculate_iv_volatility(self) -> Optional[Tuple[Decimal, Decimal, Decimal]]:
+        """
+        计算时间窗口内的DVOL波动幅度（百分比）
+        
+        Returns:
+            (min_iv, max_iv, volatility_pct) 或 None
+        """
+        if not self.iv_history:
+            return None
+        
+        current_time = time.time()
+        time_window = self.config.time_window_sec
+        
+        window_ivs = [
+            (ts, iv) for ts, iv in self.iv_history
+            if current_time - ts <= time_window
+        ]
+        
+        if len(window_ivs) < 2:
+            return None
+        
+        ivs = [iv for _, iv in window_ivs]
+        min_iv = min(ivs)
+        max_iv = max(ivs)
+        
+        if min_iv > 0:
+            volatility_pct = ((max_iv - min_iv) / min_iv) * Decimal("100")
+            return (min_iv, max_iv, volatility_pct)
+        
+        return None
+    
+    def get_btc_volatility(self) -> Optional[Tuple[Decimal, Decimal, Decimal]]:
+        """从Binance BTC波动监控器获取当前波动数据"""
+        if not self.btc_volatility_monitor:
+            return None
+        
+        result = self.btc_volatility_monitor.calculate_volatility()
+        if result:
+            min_price, max_price, volatility_pct, _ = result
+            return (min_price, max_price, volatility_pct)
+        return None
+    
+    async def check_iv(self) -> bool:
+        """检查复合条件并触发提醒"""
+        if self.monitoring_paused:
+            return False
+        
+        iv = await self.get_dvol()
+        
+        if iv is None:
+            self.logger.log("无法获取DVOL数据，跳过本次检查", "WARNING")
+            return False
+        
+        # 记录IV历史
+        current_time = time.time()
+        self.iv_history.append((current_time, iv))
+        
+        # 清理过期记录
+        time_window = self.config.time_window_sec
+        cutoff_time = current_time - (time_window * 2)
+        self.iv_history = [(ts, v) for ts, v in self.iv_history if ts > cutoff_time]
+        
+        # 计算IV波动
+        iv_vol_result = self.calculate_iv_volatility()
+        btc_vol_result = self.get_btc_volatility()
+        
+        iv_vol_str = f"{float(iv_vol_result[2]):.2f}%" if iv_vol_result else "N/A"
+        btc_vol_str = f"{float(btc_vol_result[2]):.4f}%" if btc_vol_result else "N/A"
+        
+        time_window_display = f"{self.config.time_window_sec // 60}min" if self.config.time_window_sec >= 60 else f"{self.config.time_window_sec}s"
+        
+        self.logger.log(
+            f"📊 DVOL复合监控 - {self.config.currency}: IV={float(iv):.2f}, "
+            f"IV波动({time_window_display}): {iv_vol_str} (阈值: {self.config.iv_volatility_threshold}%), "
+            f"BTC波动(1min): {btc_vol_str} (阈值: {self.config.btc_volatility_threshold_pct}%)",
+            "INFO"
+        )
+        
+        # 复合条件：两个条件同时满足
+        iv_triggered = False
+        btc_triggered = False
+        
+        if iv_vol_result:
+            iv_triggered = float(iv_vol_result[2]) >= float(self.config.iv_volatility_threshold)
+        if btc_vol_result:
+            btc_triggered = float(btc_vol_result[2]) >= float(self.config.btc_volatility_threshold_pct)
+        
+        if iv_triggered and btc_triggered:
+            if not self.alerting and not self.stop_alerting:
+                self.alerting = True
+                self.stop_alerting = False
+                self.logger.log(
+                    f"⚠️ 复合条件触发！DVOL波动: {iv_vol_str} >= {self.config.iv_volatility_threshold}%, "
+                    f"BTC波动: {btc_vol_str} >= {self.config.btc_volatility_threshold_pct}%",
+                    "WARNING"
+                )
+                asyncio.create_task(self._continuous_alert())
+                return True
+        else:
+            if self.alerting:
+                self.logger.log(f"✅ 复合条件不再满足，停止持续提醒", "INFO")
+                self.alerting = False
+                self.stop_alerting = False
+        
+        return False
+    
+    def get_status_detail(self) -> str:
+        """获取详细状态信息"""
+        iv_display = f"{self.current_iv:.2f}" if self.current_iv else "N/A"
+        iv_vol_result = self.calculate_iv_volatility()
+        iv_vol_display = f"{float(iv_vol_result[2]):.2f}%" if iv_vol_result else "数据不足"
+        btc_vol_result = self.get_btc_volatility()
+        btc_vol_display = f"{float(btc_vol_result[2]):.4f}%" if btc_vol_result else "未关联"
+        
+        update_display = ""
+        if self.last_update_time:
+            elapsed = int(time.time() - self.last_update_time)
+            update_display = f"\n⏱ 最后更新: `{elapsed}秒前`"
+        
+        time_window_display = f"{self.config.time_window_sec // 60}min" if self.config.time_window_sec >= 60 else f"{self.config.time_window_sec}s"
+        
+        return (
+            f"📊 **Deribit {self.config.currency} DVOL 复合监控详情**\n"
+            f"------------------------\n"
+            f"🌊 当前DVOL: `{iv_display}`\n"
+            f"📈 DVOL波动({time_window_display}): `{iv_vol_display}` (阈值 `{self.config.iv_volatility_threshold}%`)\n"
+            f"📉 BTC波动(1min): `{btc_vol_display}` (阈值 `{self.config.btc_volatility_threshold_pct}%`)\n"
+            f"⏱ 检查间隔: `{self.config.check_interval}s`"
+            f"{update_display}"
+        )
+    
+    async def _continuous_alert(self):
+        """持续发送提醒，直到收到停止命令或条件不再满足"""
+        self.logger.log(f"🔄 开始DVOL复合条件持续提醒循环", "INFO")
+        
+        while self.alerting and not self.stop_alerting:
+            try:
+                iv = await self.get_dvol()
+                if iv is None:
+                    self.logger.log("无法获取最新DVOL，跳过本次提醒", "WARNING")
+                    await asyncio.sleep(self.config.alert_interval)
+                    continue
+                
+                # 更新IV历史
+                current_time = time.time()
+                self.iv_history.append((current_time, iv))
+                cutoff_time = current_time - (self.config.time_window_sec * 2)
+                self.iv_history = [(ts, v) for ts, v in self.iv_history if ts > cutoff_time]
+                
+                # 重新检查复合条件
+                iv_vol_result = self.calculate_iv_volatility()
+                btc_vol_result = self.get_btc_volatility()
+                
+                iv_ok = iv_vol_result and float(iv_vol_result[2]) >= float(self.config.iv_volatility_threshold)
+                btc_ok = btc_vol_result and float(btc_vol_result[2]) >= float(self.config.btc_volatility_threshold_pct)
+                
+                if not (iv_ok and btc_ok):
+                    self.logger.log(f"✅ 复合条件不再满足 (IV={iv_ok}, BTC={btc_ok})，停止持续提醒", "INFO")
+                    self.alerting = False
+                    self.stop_alerting = False
+                    break
+                
+                iv_vol_str = f"{float(iv_vol_result[2]):.2f}%"
+                btc_vol_str = f"{float(btc_vol_result[2]):.4f}%"
+                
+                message = (
+                    f"🚨 Deribit {self.config.currency} DVOL 复合告警！\n\n"
+                    f"当前DVOL: {float(iv):.2f}\n"
+                    f"DVOL波动({self.config.time_window_sec}s): {iv_vol_str} (阈值: {self.config.iv_volatility_threshold}%)\n"
+                    f"BTC波动(1min): {btc_vol_str} (阈值: {self.config.btc_volatility_threshold_pct}%)\n"
+                    f"参考: https://www.deribit.com/statistics/{self.config.currency}/volatility-index\n"
+                    f"持续提醒中..."
+                )
+                
+                if self.alert_registry and self.alert_registry.is_muted(self.alert_id):
+                    self.logger.log(f"🔇 警报 #{self.alert_id} 已静默，跳过发送", "INFO")
+                    await asyncio.sleep(self.config.alert_interval)
+                    continue
+                
+                try:
+                    results = await self.alert_manager.send_alert(message=message, alert_type=self.config.alert_type, cooldown=0)
+                    if results:
+                        for alert_name, success in results:
+                            status = "✅" if success else "❌"
+                            self.logger.log(f"{status} {alert_name}提醒{'发送成功' if success else '发送失败'}", "INFO" if success else "WARNING")
+                except Exception as send_error:
+                    self.logger.log(f"❌ 发送提醒时出错: {send_error}", "ERROR")
+                
+                await asyncio.sleep(self.config.alert_interval)
+                
+            except Exception as e:
+                self.logger.log(f"❌ DVOL持续提醒循环出错: {e}", "ERROR")
+                await asyncio.sleep(self.config.alert_interval)
+        
+        self.logger.log(f"🛑 DVOL持续提醒循环已停止", "INFO")
+        self.alerting = False
+    
+    async def start_monitoring(self):
+        """开始监控循环"""
+        btc_ref = "已关联" if self.btc_volatility_monitor else "⚠️ 未关联"
+        self.logger.log(
+            f"🚀 Deribit DVOL复合条件监控启动\n"
+            f"币种: {self.config.currency}\n"
+            f"DVOL波动阈值: {self.config.iv_volatility_threshold}% ({self.config.time_window_sec}s内)\n"
+            f"BTC波动阈值: {self.config.btc_volatility_threshold_pct}% (1min内)\n"
+            f"Binance BTC监控: {btc_ref}\n"
+            f"检查间隔: {self.config.check_interval}秒",
+            "INFO"
+        )
+        
+        while self.config.enabled:
+            try:
+                if self.monitoring_paused:
+                    await asyncio.sleep(self.config.check_interval)
+                    continue
+                await self.check_iv()
+                await asyncio.sleep(self.config.check_interval)
+            except KeyboardInterrupt:
+                self.logger.log("监控停止（用户中断）", "INFO")
+                break
+            except Exception as e:
+                self.logger.log(f"监控异常: {e}", "ERROR")
+                await asyncio.sleep(self.config.check_interval)
+
 async def main():
     """主函数"""
     # 加载环境变量
@@ -1410,7 +1725,32 @@ async def main():
     
     print(f"📊 已加载 {len(volatility_monitors)} 个波动监控器")
     
-
+    # 从 config.py 读取 Deribit IV (DVOL) 监控配置
+    iv_monitors = []
+    for iv_cfg in config.DERIBIT_IV_MONITOR_CONFIGS:
+        if iv_cfg.get('enabled', True):
+            iv_config = DeribitIVMonitorConfig(
+                currency=iv_cfg.get('currency', 'BTC'),
+                iv_volatility_threshold=iv_cfg['iv_volatility_threshold'],
+                time_window_sec=iv_cfg.get('time_window_sec', 120),
+                btc_volatility_threshold_pct=iv_cfg.get('btc_volatility_threshold_pct', Decimal("1.0")),
+                check_interval=iv_cfg.get('check_interval', 5),
+                alert_interval=iv_cfg.get('alert_interval', 60),
+                enabled=True
+            )
+            iv_monitor = DeribitIVMonitor(iv_config)
+            
+            # 注入Binance BTC波动监控器引用（用于复合条件判断）
+            # 查找exchange=binance, ticker=BTC的波动监控器
+            for vm in volatility_monitors:
+                if (getattr(vm.config, 'exchange', '').lower() == 'binance' and
+                    getattr(vm.config, 'ticker', '').upper() == 'BTC'):
+                    iv_monitor.set_btc_volatility_monitor(vm)
+                    break
+            
+            iv_monitors.append(iv_monitor)
+    
+    print(f"🌊 已加载 {len(iv_monitors)} 个Deribit IV监控器")
     
     target_monitor = None
     
@@ -1531,7 +1871,8 @@ async def main():
         volatility_monitors=volatility_monitors,
         target_monitor=target_monitor,
         position_monitor=position_monitor,
-        extra_monitors=extra_monitors
+        extra_monitors=extra_monitors,
+        iv_monitors=iv_monitors
     )
     
     # 启动Telegram bot（异步任务）
@@ -1619,6 +1960,10 @@ async def main():
         # 添加动态监控任务
         for monitor in extra_monitors:
             tasks.append(asyncio.create_task(monitor.start_monitoring()))
+        
+        # 添加Deribit IV监控任务
+        for ivm in iv_monitors:
+            tasks.append(asyncio.create_task(ivm.start_monitoring()))
         
         # 等待所有任务完成
         if tasks:

@@ -100,3 +100,23 @@ POSITION_TICKER_CONFIGS = {
     #     'enabled': True
     # }
 }
+
+# ------------------------------------------------------------------------------
+# Deribit IV (DVOL) Monitor - 复合条件报警
+# 监控Deribit隐含波动率指数(DVOL)的波动，当以下两个条件同时满足时触发警报：
+#   1. DVOL在time_window_sec内的波动幅度超过iv_volatility_threshold
+#   2. Binance BTC 1分钟价格波动率超过btc_volatility_threshold_pct
+# API: https://www.deribit.com/api/v2/public/get_volatility_index_data
+# 参考页面: https://www.deribit.com/statistics/BTC/volatility-index
+# ------------------------------------------------------------------------------
+DERIBIT_IV_MONITOR_CONFIGS = [
+    {
+        'enabled': True,
+        'currency': 'BTC',
+        'iv_volatility_threshold': Decimal("3.0"),   # DVOL波动阈值（百分比变动幅度，如3%即从50波动到51.5）
+        'time_window_sec': 120,                       # DVOL波动时间窗口（秒），2分钟
+        'btc_volatility_threshold_pct': Decimal("1.0"),  # Binance BTC价格波动阈值（%），1分钟内
+        'check_interval': 5,                          # 检查间隔（秒）
+        'alert_interval': 60,                         # 持续提醒间隔（秒）
+    },
+]

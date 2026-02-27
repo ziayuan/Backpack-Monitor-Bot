@@ -56,12 +56,25 @@
 推荐使用 Ubuntu 22.04 LTS 或其他主流 Linux 发行版。
 
 ### 1. 环境准备
+
+根据你的操作系统选择相应的安装命令：
+
+#### **Ubuntu / Debian (推荐)**
 ```bash
 # 更新系统
 sudo apt update && sudo apt upgrade -y
 
 # 安装 Python 3.10+ 和 pip
 sudo apt install python3 python3-pip python3-venv git -y
+```
+
+#### **Amazon Linux / CentOS / RHEL**
+```bash
+# 更新系统
+sudo yum update -y
+
+# 安装 Python 3 和 git
+sudo yum install python3 python3-pip git -y
 ```
 
 ### 2. 获取代码
